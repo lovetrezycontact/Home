@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎶 Lovers Music Space</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff6ec4, #7873f5);
+      margin: 0;
+      padding: 0;
+      color: white;
+      text-align: center;
+    }
+    h1 {
+      margin-top: 30px;
+      font-size: 3rem;
+      text-shadow: 0 0 15px #fff;
+    }
+    p {
+      font-size: 1.4rem;
+      margin: 10px 20px;
+    }
+    select {
+      margin-top: 25px;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      width: 80%;
+      max-width: 400px;
+    }
+    .songs, .playlist {
+      display: none;
+      margin-top: 25px;
+      text-align: left;
+      max-width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      background: rgba(255,255,255,0.12);
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.5);
+    }
+    .songs h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+    .songs ul {
+      list-style: none;
+      padding: 0;
+    }
+    .songs ul li {
+      padding: 10px 0;
+      font-size: 1.3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    .playlist h3 {
+      text-align: center;
+      font-size: 1.6rem;
+      margin-top: 15px;
+    }
+    iframe {
+      border-radius: 15px;
+      margin-top: 15px;
+      width: 100%;
+      height: 420px;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      p {
+        font-size: 1.2rem;
+      }
+      select {
+        font-size: 1.2rem;
+        padding: 12px;
+      }
+      .songs h2 {
+        font-size: 1.6rem;
+      }
+      .songs ul li {
+        font-size: 1.1rem;
+      }
+      iframe {
+        height: 380px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation bar from index.html (example) -->
+  <nav style="width:90%;margin:0 auto 0 auto;border-radius:10px;background:linear-gradient(90deg,#ffe4ec 60%,#ffb6d1 100%);padding:16px 0;text-align:center;box-shadow:0 2px 12px #ffb6d155;">
+    <a href="https://lovetrezycontact.github.io/Home/" style="margin:0 18px;color:#ff66a3;font-family:'Cherry Cream Soda',cursive;font-size:1.15em;text-decoration:none;">
+      <i class="las la-home" style="font-size:1.3em;vertical-align:middle;margin-right:6px;"></i> Home
+    </a>
+    <a href="place1.html" style="margin:0 18px;color:#a05a8c;font-family:'Cherry Cream Soda',cursive;font-size:1.15em;text-decoration:none;">
+      <i class="las la-map-marked-alt" style="font-size:1.3em;vertical-align:middle;margin-right:6px;"></i> Lovely Places
+    </a>
+    <a href="game1.html" style="margin:0 18px;color:#43e97b;font-family:'Cherry Cream Soda',cursive;font-size:1.15em;text-decoration:none;">
+      <i class="las la-gamepad" style="font-size:1.3em;vertical-align:middle;margin-right:6px;"></i> Game
+    </a>
+  </nav>
+
+  <h1>🎵 Lovers Music Space</h1>
+  <p>Select your language to explore 20 most popular love songs 💕</p>
+
+  <!-- Language Selector -->
+  <select id="language" onchange="showSongs()">
+    <option value="">-- Choose Language --</option>
+    <option value="tamil">Tamil</option>
+    <option value="english">English</option>
+    <option value="malayalam">Malayalam</option>
+  </select>
+
+  <!-- Tamil Songs -->
+  <div id="tamil" class="songs">
+    <h2>🎶 Top 20 Tamil Love Songs</h2>
+    <div class="playlist">
+      <h3>💖 Play the Tamil Love Playlist</h3>
+      <iframe src="https://open.spotify.com/embed/playlist/5AB5tIUaoGyIsa5U2vY8Z9" frameborder="0" 
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </div>
+    <ul>
+      <li>1. Vaseegara – Bombay Jayashri</li>
+      <li>2. Munbe Vaa – Sillunu Oru Kaadhal</li>
+      <li>3. Anbil Avan – Vinnaithaandi Varuvaayaa</li>
+      <li>4. Kadhal Rojave – Roja</li>
+      <li>5. Nenjukkul Peidhidum – Vaaranam Aayiram</li>
+      <li>6. Ennavale – Kadhalan</li>
+      <li>7. Un Perai Sollum Pothe – Angadi Theru</li>
+      <li>8. Kannaane Kanne – Viswasam</li>
+      <li>9. Suttum Vizhi – Ghajini</li>
+      <li>10. Po Nee Po – 3</li>
+      <li>11. Uyire Uyire – Bombay</li>
+      <li>12. Oh Shanthi Shanthi – Vaaranam Aayiram</li>
+      <li>13. Aval Ulaga Azhagiye – Achcham Yenbadhu Madamaiyada</li>
+      <li>14. Adiye – Kadal</li>
+      <li>15. Kanmani Anbodu – Guna</li>
+      <li>16. Malare Mounama – Karnaa</li>
+      <li>17. Roja Roja – Kadhalar Dhinam</li>
+      <li>18. Thalli Pogathey – Achcham Yenbadhu Madamaiyada</li>
+      <li>19. New York Nagaram – Sillunu Oru Kaadhal</li>
+      <li>20. Enna Solla Pogirai – Kandukonden Kandukonden</li>
+    </ul>
+  </div>
+
+  <!-- English Songs -->
+  <div id="english" class="songs">
+    <h2>🎶 Top 20 English Love Songs</h2>
+    <div class="playlist">
+      <h3>💖 Play the English Love Playlist</h3>
+      <iframe src="https://open.spotify.com/embed/playlist/6FrBYANMlV06qnWLoGZVy5" frameborder="0" 
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </div>
+    <ul>
+      <li>1. Perfect – Ed Sheeran</li>
+      <li>2. All of Me – John Legend</li>
+      <li>3. Thinking Out Loud – Ed Sheeran</li>
+      <li>4. Someone Like You – Adele</li>
+      <li>5. My Heart Will Go On – Celine Dion</li>
+      <li>6. Just The Way You Are – Bruno Mars</li>
+      <li>7. Can’t Help Falling in Love – Elvis Presley</li>
+      <li>8. A Thousand Years – Christina Perri</li>
+      <li>9. Shallow – Lady Gaga & Bradley Cooper</li>
+      <li>10. Endless Love – Lionel Richie & Diana Ross</li>
+      <li>11. I Will Always Love You – Whitney Houston</li>
+      <li>12. Everything I Do – Bryan Adams</li>
+      <li>13. You Are The Reason – Calum Scott</li>
+      <li>14. Because You Loved Me – Celine Dion</li>
+      <li>15. Bleeding Love – Leona Lewis</li>
+      <li>16. Love Me Like You Do – Ellie Goulding</li>
+      <li>17. We Found Love – Rihanna</li>
+      <li>18. When You Say Nothing At All – Ronan Keating</li>
+      <li>19. How Deep Is Your Love – Bee Gees</li>
+      <li>20. Truly Madly Deeply – Savage Garden</li>
+    </ul>
+  </div>
+
+  <!-- Malayalam Songs -->
+  <div id="malayalam" class="songs">
+    <h2>🎶 Top 20 Malayalam Love Songs</h2>
+    <div class="playlist">
+      <h3>💖 Play the Malayalam Love Playlist</h3>
+      <iframe src="https://open.spotify.com/embed/playlist/4t2gX3OWkkdy8vHiVrRXq7" frameborder="0" 
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </div>
+    <ul>
+      <li>1. Malare – Premam</li>
+      <li>2. Anuragam – Ishq</li>
+      <li>3. Manikya Malaraya Poovi – Oru Adaar Love</li>
+      <li>4. Ee Kaattu – Adam Joan</li>
+      <li>5. Minnaminni – Kumbalangi Nights</li>
+      <li>6. Vennilave – Sagar Alias Jacky</li>
+      <li>7. Mazhaye Mazhaye – James & Alice</li>
+      <li>8. Oru Venal Pozhuthil – Unni Menon</li>
+      <li>9. Nilaavinte – Jacobinte Swargarajyam</li>
+      <li>10. Aaromale – Vinnaithaandi Varuvaayaa (Malayalam Version)</li>
+      <li>11. Kaadhal Rojave – Roja (Malayalam)</li>
+      <li>12. Pookkal Panineer – Yesudas</li>
+      <li>13. Swapnangalokkeyum – Summer in Bethlehem</li>
+      <li>14. Kuyile Kuyile – Dr. Pasupathy</li>
+      <li>15. Kuyilinte Koo – Aadyathe Kanmani</li>
+      <li>16. Pathu Veluppinu – Bharya</li>
+      <li>17. Kandu Kandu – Ezra</li>
+      <li>18. Ennum Ninne – Aniyathi Pravu</li>
+      <li>19. Kannil Kannil – Oru Vadakkan Selfie</li>
+      <li>20. Vennilave Vennilave – Minsara Kanavu (Malayalam)</li>
+    </ul>
+  </div>
+
+  <script>
+    function showSongs() {
+      let lang = document.getElementById("language").value;
+      let sections = document.getElementsByClassName("songs");
+      for (let i = 0; i < sections.length; i++) {
+        sections[i].style.display = "none";
+      }
+      if (lang) {
+        document.getElementById(lang).style.display = "block";
+        let playlist = document.querySelector(`#${lang} .playlist`);
+        if (playlist) playlist.style.display = "block";
+      }
+    }
+  </script>
+  <!-- Sticky footer always at bottom -->
+<footer style="position:fixed;left:0;bottom:0;width:100%;margin:0;padding:24px 0 16px 0;text-align:center;background:linear-gradient(90deg,#ffe4ec 60%,#ffb6d1 100%);color:#a05a8c;font-family:'Cherry Cream Soda',cursive;font-size:1.1em;letter-spacing:1px;z-index:999;">
+  Made with <span style="color:#ff66a3;font-size:1.2em;">&#10084;&#65039;</span> in Tamil Nadu &mdash; <b>Love Trezy</b> &copy; 2025
+  <br>
+  <span style="font-size:0.95em;color:#a05a8c;">
+    Designed by Sakthivel | Follow us on 
+    <a href="https://instagram.com/" style="color:#ff66a3;text-decoration:none;" target="_blank">Instagram</a> &amp; 
+    <a href="https://twitter.com/" style="color:#ff66a3;text-decoration:none;" target="_blank">Twitter</a>
+  </span>
+</footer>
+</body>
+</html>

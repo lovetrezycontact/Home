@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>💕 Tamil Nadu Love Views</title>
+  <meta name="description" content="Discover Tamil Nadu's top 10 scenic viewpoints — in a romantic love theme with hearts and glowing effects." />
+
+  <!-- Google Fonts: Pacifico for heading, Cherry Cream Soda for text -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Cherry+Cream+Soda&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #1a0b14;
+      --card: #fff; /* Make cards white for contrast */
+      --text: #2d1a2d; /* Dark text */
+      --muted: #a05a8c; /* Muted dark pink */
+      --accent: #ff66a3;
+      --accent-2: #ff99cc;
+      --glow: 0 0 30px rgba(255,105,180,.15), 0 0 60px rgba(255,182,193,.12);
+      --ring: 0 0 0 2px rgba(255,182,193,.18), 0 0 40px rgba(255,20,147,.12);
+    }
+
+    body{
+      margin:0;
+      font-family: 'Cherry Cream Soda', cursive, sans-serif;
+      color:#2d1a2d; /* Changed to dark text */
+      background:
+        radial-gradient(1200px 500px at 10% -10%, rgba(255,182,193,.25), transparent 60%),
+        radial-gradient(900px 500px at 110% 20%, rgba(255,182,193,.18), transparent 60%),
+        radial-gradient(700px 600px at 40% 120%, rgba(255,182,193,.13), transparent 60%),
+        #ffe4ec; /* Light rose background */
+      overflow-x:hidden;
+    }
+
+    /* Floating Hearts */
+    .hearts{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index:0;
+    }
+    .heart{
+      position:absolute;
+      bottom:-50px;
+      font-size:20px;
+      color:var(--accent-2);
+      opacity:.8;
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp{
+      from{ transform: translateY(0) rotate(0deg); opacity:.8 }
+      to{ transform: translateY(-120vh) rotate(360deg); opacity:0 }
+    }
+
+    /* Header */
+    header{
+      position: relative;
+      padding: 60px 24px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align:center;
+      z-index:1;
+    }
+    .title{
+      font-family: 'Pacifico', cursive, sans-serif;
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight:800;
+      margin:10px 0;
+      color: var(--accent-2);
+      text-shadow: 0 0 15px rgba(255,182,193,.6);
+      letter-spacing: 2px;
+    }
+    .subtitle{
+      font-family: 'Cherry Cream Soda', cursive, sans-serif;
+      color: var(--muted);
+      max-width:60ch;
+      margin:0 auto;
+      font-size:20px;
+      letter-spacing: 1px;
+    }
+
+    /* Controls */
+    .controls{
+      margin-top:25px;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:12px;
+    }
+    .chip{
+      font-family: 'Cherry Cream Soda', cursive, sans-serif;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1.5px solid var(--accent-2);
+      color:#2d1a2d;
+      background: linear-gradient(90deg, #ffe4ec, #ffb6d1, #fffde4, #e0c3fc, #ffe4ec);
+      background-size: 400% 400%;
+      cursor:pointer;
+      transition:.2s;
+      font-size: 17px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 10px #ffb6d133;
+      animation: chip-multicolor-move 3s linear infinite;
+    }
+    .chip.active{
+      background: linear-gradient(90deg, #ff99cc, #ffb6d1, #fffde4, #e0c3fc, #ff99cc);
+      background-size: 400% 400%;
+      color:#fff;
+      box-shadow: 0 0 18px 4px #ffb6d1aa, 0 0 32px 8px #e0c3fc77;
+      animation: chip-multicolor-move 2s linear infinite;
+      border:2px solid #ff66a3;
+    }
+    @keyframes chip-multicolor-move {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .select{
+      font-family: 'Cherry Cream Soda', cursive, sans-serif;
+      border-radius:12px;
+      border:1px solid var(--accent-2);
+      padding:10px;
+      background:rgba(255,255,255,.1);
+      color:var(--text);
+      font-size:17px;
+      box-shadow: var(--glow);
+      letter-spacing: 1px;
+    }
+
+    /* Grid */
+    .grid{
+      max-width:1100px;
+      margin:30px auto 70px;
+      padding:0 20px;
+      display:grid;
+      gap:16px;
+      grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+      z-index:1;
+      position:relative;
+    }
+
+    /* Card */
+    .card{
+      background: #fff;
+      border:1px solid var(--accent-2);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow: var(--glow);
+      transition:.2s;
+      cursor:pointer;
+      font-family: 'Cherry Cream Soda', cursive, sans-serif;
+      color: #2d1a2d; /* Dark text in cards */
+    }
+    .card:hover{ transform:translateY(-4px); box-shadow: var(--ring) }
+    .card img{ width:100%; height:200px; object-fit:cover }
+    .card-body{ padding:14px }
+    .place{ font-size:20px; font-weight:700; color:var(--accent-2); letter-spacing: 1px;}
+    .loc{ font-size:15px; color:var(--muted) }
+    .desc { color: #a05a8c !important; }
+
+    /* Modal */
+    dialog{
+      border:0; border-radius:16px; padding:0;
+      background: #fff;
+      color: #2d1a2d;
+      width:min(800px,95%);
+      font-family: 'Cherry Cream Soda', cursive, sans-serif;
+    }
+    dialog::backdrop{ background:rgba(0,0,0,.5) }
+    .modal img{ width:100%; height:250px; object-fit:cover }
+    .modal .content{ padding:18px }
+    .modal h2{ margin:8px 0; color:var(--accent-2); font-family: 'Pacifico', cursive, sans-serif; letter-spacing: 2px;}
+    .btn{
+      font-family: 'Cherry Cream Soda', cursive, sans-serif;
+      margin-top:12px;
+      padding:10px 14px;
+      border:1px solid var(--accent-2);
+      border-radius:12px;
+      background:linear-gradient(90deg,#ff66a3,#ff99cc);
+      color:#fff;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow: var(--glow);
+      font-size: 17px;
+      letter-spacing: 1px;
+    }
+    .btn.close{ background:transparent; color:var(--accent-2) }
+  </style>
+</head>
+<body>
+  <!-- Home Button (fixed, top left) -->
+  <a href="index.html" 
+     style="position:fixed;top:22px;left:22px;z-index:1000;
+            background:#fff;
+            border:2px solid #ff66a3;
+            color:#ff66a3;
+            font-family:'Cherry Cream Soda',cursive;
+            font-size:1.1em;
+            border-radius:50%;
+            width:38px;
+            height:38px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            box-shadow:0 2px 12px #ffb6d155;
+            text-decoration:none;
+            transition:.2s;">
+    <span style="font-size:1.3em;">🏠</span>
+  </a>
+  <!-- Floating hearts -->
+  <div class="hearts" id="hearts"></div>
+
+  <header>
+    <h1 class="title">💕 Top Romantic Places in Tamil Nadu 💕</h1>
+    <p class="subtitle">Explore breathtaking hills, dreamy coasts, waterfalls, and heritage spots — all in a glowing love theme.</p>
+
+    <div class="controls">
+      <div class="chip active" data-tag="all">All</div>
+      <div class="chip" data-tag="Hills">Hills</div>
+      <div class="chip" data-tag="Coast">Coast</div>
+      <div class="chip" data-tag="Waterfall">Waterfall</div>
+      <div class="chip" data-tag="Nature">Nature</div>
+      <div class="chip" data-tag="Heritage">Heritage</div>
+      <div class="chip" data-tag="City">City</div>
+      <div class="chip" data-tag="Backwaters">Backwaters</div>
+      <div class="chip" data-tag="Garden">Garden</div>
+      <div class="chip" data-tag="Cafe">Cafe</div>
+      <select id="sort" class="select">
+        <option value="rank">Sort by Rank</option>
+        <option value="name">Sort by Name</option>
+        <option value="rating">Sort by Rating</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="grid" id="grid"></main>
+
+  <!-- Modal -->
+  <dialog id="modal">
+    <div class="modal">
+      <img id="m-img" alt="">
+      <div class="content">
+        <h2 id="m-title"></h2>
+        <p id="m-loc"></p>
+        <p id="m-desc"></p>
+        <a class="btn" id="m-map" target="_blank">Open in Maps</a>
+        <button class="btn close" id="m-close">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    // Romantic places data (from your prompt)
+    const PLACES = [
+      {rank:1,name:"Coonoor",city:"Coonoor",tag:"Hills",rating:4.7,map:"https://maps.google.com/?q=Coonoor", desc:"A serene hill station in the Nilgiris, famous for its lush tea gardens, misty valleys, and romantic toy train rides."},
+      {rank:2,name:"Ooty",city:"Ooty",tag:"Hills",rating:4.8,map:"https://maps.google.com/?q=Ooty", desc:"The 'Queen of Hill Stations', Ooty is a dreamy destination with botanical gardens, lakes, and breathtaking mountain views."},
+      {rank:3,name:"Kodaikanal",city:"Kodaikanal",tag:"Hills",rating:4.8,map:"https://maps.google.com/?q=Kodaikanal", desc:"Known as the 'Princess of Hill Stations', Kodaikanal enchants couples with its cool climate, lakes, and pine forests."},
+      {rank:4,name:"Meghamalai",city:"Meghamalai",tag:"Hills",rating:4.5,map:"https://maps.google.com/?q=Meghamalai", desc:"A hidden gem in the Western Ghats, Meghamalai offers misty mountains, tea estates, and tranquil escapes for lovers."},
+      {rank:5,name:"Indira Gandhi Wildlife Sanctuary",city:"Tirunelveli",tag:"Nature",rating:4.4,map:"https://maps.google.com/?q=Indira+Gandhi+Wildlife+Sanctuary", desc:"A paradise for nature lovers, this sanctuary is home to lush forests, waterfalls, and diverse wildlife."},
+      {rank:6,name:"Kalakkadu Wildlife Sanctuary",city:"Kalakkadu",tag:"Nature",rating:4.3,map:"https://maps.google.com/?q=Kalakkadu+Wildlife+Sanctuary", desc:"A scenic sanctuary with dense forests and rare species, perfect for couples who love adventure and nature."},
+      {rank:7,name:"Mahabalipuram",city:"Mahabalipuram",tag:"Heritage",rating:4.6,map:"https://maps.google.com/?q=Mahabalipuram", desc:"A UNESCO World Heritage site, Mahabalipuram charms with its ancient temples, rock-cut sculptures, and romantic beaches."},
+      {rank:8,name:"Kutralam (Courtallam)",city:"Kutralam",tag:"Waterfall",rating:4.5,map:"https://maps.google.com/?q=Courtallam", desc:"Famous for its rejuvenating waterfalls and lush greenery, Courtallam is a monsoon lover’s paradise."},
+      {rank:9,name:"Chennai",city:"Chennai",tag:"City",rating:4.2,map:"https://maps.google.com/?q=Chennai", desc:"The vibrant capital city offers a blend of beaches, cafes, and cultural spots for urban romance."},
+      {rank:10,name:"Kanyakumari",city:"Kanyakumari",tag:"Coast",rating:4.7,map:"https://maps.google.com/?q=Kanyakumari", desc:"Witness magical sunrises and sunsets where three seas meet, making it a truly romantic destination."},
+      {rank:11,name:"Yelagiri",city:"Yelagiri",tag:"Hills",rating:4.3,map:"https://maps.google.com/?q=Yelagiri", desc:"A peaceful hill retreat with orchards, lakes, and gentle hills, ideal for a quiet getaway."},
+      {rank:12,name:"Yercaud",city:"Yercaud",tag:"Hills",rating:4.4,map:"https://maps.google.com/?q=Yercaud", desc:"Known for its coffee plantations and cool climate, Yercaud is perfect for couples seeking tranquility."},
+      {rank:13,name:"Hogenakkal",city:"Hogenakkal",tag:"Waterfall",rating:4.4,map:"https://maps.google.com/?q=Hogenakkal", desc:"Called the 'Niagara of India', Hogenakkal offers boat rides and misty falls for a memorable date."},
+      {rank:14,name:"Marina Beach & ECR",city:"Chennai",tag:"Coast",rating:4.3,map:"https://maps.google.com/?q=Marina+Beach+Chennai", desc:"Enjoy long walks, sea breeze, and scenic drives along the East Coast Road with your loved one."},
+      {rank:15,name:"Theosophical Society",city:"Chennai",tag:"Garden",rating:4.6,map:"https://maps.google.com/?q=Theosophical+Society+Chennai", desc:"A peaceful garden oasis in the city, perfect for romantic strolls under ancient trees."},
+      {rank:16,name:"Muttukadu Backwaters",city:"Chennai",tag:"Backwaters",rating:4.5,map:"https://maps.google.com/?q=Muttukadu+Backwaters", desc:"Take a boat ride on the serene backwaters and enjoy the sunset with your partner."},
+      {rank:17,name:"Amethyst Cafe",city:"Chennai",tag:"Cafe",rating:4.2,map:"https://maps.google.com/?q=Amethyst+Cafe+Chennai", desc:"A charming garden cafe, ideal for cozy conversations and delicious treats."},
+      {rank:18,name:"Siruvani Waterfalls",city:"Coimbatore",tag:"Waterfall",rating:4.6,map:"https://maps.google.com/?q=Siruvani+Waterfalls", desc:"A scenic waterfall surrounded by forests, perfect for a refreshing romantic escape."},
+      {rank:19,name:"Monkey Waterfall",city:"Coimbatore",tag:"Waterfall",rating:4.4,map:"https://maps.google.com/?q=Monkey+Waterfall+Coimbatore", desc:"A lesser-known waterfall, great for couples who love offbeat adventures."},
+      {rank:20,name:"Amaravathi Dam",city:"Amaravathinagar",tag:"Nature",rating:4.3,map:"https://maps.google.com/?q=Amaravathi+Dam", desc:"A tranquil spot with a large reservoir, hills, and the chance to spot crocodiles."},
+      {rank:21,name:"Glenmorgan",city:"Ooty",tag:"Hills",rating:4.4,map:"https://maps.google.com/?q=Glenmorgan+Ooty", desc:"A picturesque tea estate with panoramic views, perfect for a romantic picnic."},
+      {rank:22,name:"Tiger Hill",city:"Ooty",tag:"Hills",rating:4.5,map:"https://maps.google.com/?q=Tiger+Hill+Ooty", desc:"A quiet hilltop with stunning sunrise views, ideal for couples seeking solitude."},
+      {rank:23,name:"Catherine Falls",city:"Kotagiri",tag:"Waterfall",rating:4.6,map:"https://maps.google.com/?q=Catherine+Falls", desc:"A breathtaking double-cascaded waterfall, surrounded by lush greenery and scenic trails."}
+    ];
+
+    const grid = document.getElementById("grid");
+    const chips = document.querySelectorAll(".chip");
+    const sortSel = document.getElementById("sort");
+    const modal = document.getElementById("modal");
+    const mImg = document.getElementById("m-img");
+    const mTitle = document.getElementById("m-title");
+    const mLoc = document.getElementById("m-loc");
+    const mDesc = document.getElementById("m-desc");
+    const mMap = document.getElementById("m-map");
+    const mClose = document.getElementById("m-close");
+
+    // Fix: Attach close event after DOM is ready
+    if (mClose && modal) {
+      mClose.addEventListener("click", function(e) {
+        e.stopPropagation();
+        modal.close();
+      });
+    }
+
+    let activeTag="all", sortMode="rank";
+
+    function getImageForPlace(place) {
+      // You can expand this mapping with more beautiful Unsplash images if desired
+      const images = {
+        "Coonoor": "https://images.unsplash.com/photo-1548013146-72479768bada?w=800",
+        "Ooty": "https://images.unsplash.com/photo-1503832725-cb57d7a5f43d?w=800",
+        "Kodaikanal": "https://images.unsplash.com/photo-1589307004173-3dcb1a5c2f58?w=800",
+        "Meghamalai": "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800",
+        "Indira Gandhi Wildlife Sanctuary": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
+        "Kalakkadu Wildlife Sanctuary": "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?w=800",
+        "Mahabalipuram": "https://images.unsplash.com/photo-1609947014949-46eaaba54c4a?w=800",
+        "Kutralam (Courtallam)": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=800",
+        "Chennai": "https://images.unsplash.com/photo-1533142266415-ac591a4c3fd0?w=800",
+        "Kanyakumari": "https://images.unsplash.com/photo-1555313006-13faf5f57152?w=800",
+        "Yelagiri": "https://images.unsplash.com/photo-1482192505345-5655af888cc4?w=800",
+        "Yercaud": "https://images.unsplash.com/photo-1526403646408-57b94dc153b6?w=800",
+        "Hogenakkal": "https://images.unsplash.com/photo-1465101178521-c1a9136a3fdc?w=800",
+        "Marina Beach & ECR": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800",
+        "Theosophical Society": "https://images.unsplash.com/photo-1465101178521-c1a9136a3fdc?w=800",
+        "Muttukadu Backwaters": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
+        "Amethyst Cafe": "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800",
+        "Siruvani Waterfalls": "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=800",
+        "Monkey Waterfall": "https://images.unsplash.com/photo-1465101178521-c1a9136a3fdc?w=800",
+        "Amaravathi Dam": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800",
+        "Glenmorgan": "https://images.unsplash.com/photo-1503832725-cb57d7a5f43d?w=800",
+        "Tiger Hill": "https://images.unsplash.com/photo-1548013146-72479768bada?w=800",
+        "Catherine Falls": "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800"
+      };
+      return images[place.name] || "https://images.unsplash.com/photo-1464983953574-0892a716854b?w=800";
+    }
+
+    // Like/Dislike storage (simulate global for all users on this device)
+    // Always re-initialize with random numbers on every page load
+    likeData = {};
+    PLACES.forEach((p, i) => {
+      // Random likes between 120 and 400, dislikes between 10 and 80, different for each post
+      likeData[p.rank] = {
+        like: Math.floor(Math.random() * 280) + 120 + i * 3,
+        dislike: Math.floor(Math.random() * 70) + 10 + i * 2
+      };
+    });
+    // No localStorage used, so numbers reset every time
+
+    function renderLikesSummary() {
+      const allLikes = document.getElementById("all-likes");
+      allLikes.innerHTML = "";
+      PLACES.forEach(p => {
+        const id = p.rank;
+        const likes = likeData[id]?.like || 0;
+        const dislikes = likeData[id]?.dislike || 0;
+        allLikes.innerHTML += `
+          <div style="background:#fff3fa;border-radius:12px;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-weight:bold;color:#a05a8c;">${p.rank}. ${p.name}</span>
+            <span>
+              <span style="margin-right:18px;color:#ff66a3;font-size:1.2em;vertical-align:middle;">❤️ ${likes}</span>
+              <span style="color:#a05a8c;font-size:1.2em;vertical-align:middle;">💔 ${dislikes}</span>
+            </span>
+          </div>
+        `;
+      });
+    }
+
+    function render(){
+      grid.innerHTML="";
+      PLACES.filter(p=>{
+        const matchTag = activeTag==="all"||p.tag===activeTag;
+        return matchTag;
+      }).sort((a,b)=>{
+        if(sortMode==="name") return a.name.localeCompare(b.name);
+        if(sortMode==="rating") return b.rating-b.rating;
+        return a.rank-b.rank;
+      }).forEach(p=>{
+        const card=document.createElement("div");
+        card.className="card";
+        const imgUrl = getImageForPlace(p);
+        const id = p.rank;
+        const likes = likeData[id]?.like || 0;
+        const dislikes = likeData[id]?.dislike || 0;
+        card.innerHTML=`
+          <img src="${imgUrl}" alt="">
+          <div class="card-body">
+            <div class="place">${p.rank}. ${p.name}</div>
+            <div class="loc">${p.city} • ${p.tag}</div>
+            <div class="desc" style="margin-top:8px;color:#ffb6d1;font-size:15px;">${p.desc || ""}</div>
+            <div style="margin-top:10px;display:flex;gap:18px;align-items:center;">
+              <button class="like-btn" data-id="${id}" style="background:none;border:none;cursor:pointer;font-size:1.3em;color:#ff66a3;display:flex;align-items:center;gap:4px;">
+                <span style="font-size:1.3em;">&#128077;</span> <!-- Thumbs up icon -->
+                <span class="like-count">${likes}</span>
+              </button>
+              <button class="dislike-btn" data-id="${id}" style="background:none;border:none;cursor:pointer;font-size:1.3em;color:#a05a8c;display:flex;align-items:center;gap:4px;">
+                <span style="font-size:1.3em;">&#128078;</span> <!-- Thumbs down icon -->
+                <span class="dislike-count">${dislikes}</span>
+              </button>
+            </div>
+          </div>
+        `;
+        card.addEventListener("click",e=>{
+          // Prevent modal if like/dislike button clicked
+          if(e.target.closest('.like-btn') || e.target.closest('.dislike-btn')) return;
+          mImg.src=imgUrl; 
+          mTitle.textContent=p.name; 
+          mLoc.textContent=p.city+" — "+p.tag;
+          mDesc.innerHTML = `
+            <strong>About this place:</strong><br>
+            ${p.desc ? p.desc : "A beautiful romantic spot in Tamil Nadu."}
+            <br><br>
+            <strong>Rating:</strong> ${p.rating} ❤️
+            <br>
+            <strong>Category:</strong> ${p.tag}
+            <br>
+            <strong>Location:</strong> ${p.city}
+          `;
+          mMap.href=p.map;
+          modal.showModal();
+        });
+        grid.appendChild(card);
+      });
+
+      // Attach like/dislike events
+      document.querySelectorAll('.like-btn').forEach(btn=>{
+        btn.onclick = function(e){
+          e.stopPropagation();
+          const id = btn.getAttribute('data-id');
+          likeData[id] = likeData[id] || {like:0,dislike:0};
+          likeData[id].like++;
+          render();
+          renderLikesSummary();
+        };
+      });
+      document.querySelectorAll('.dislike-btn').forEach(btn=>{
+        btn.onclick = function(e){
+          e.stopPropagation();
+          const id = btn.getAttribute('data-id');
+          likeData[id] = likeData[id] || {like:0,dislike:0};
+          likeData[id].dislike++;
+          render();
+          renderLikesSummary();
+        };
+      });
+    }
+
+    // Remove previous event listeners before adding new ones to avoid stacking
+    function attachChipEvents() {
+      chips.forEach(c => {
+        // Remove any previous event listener
+        c.replaceWith(c.cloneNode(true));
+      });
+      // Re-select chips after cloning
+      const newChips = document.querySelectorAll(".chip");
+      newChips.forEach(c => {
+        c.addEventListener("click", () => {
+          newChips.forEach(x => x.classList.remove("active"));
+          c.classList.add("active");
+          activeTag = c.dataset.tag;
+          render();
+        });
+      });
+    }
+
+    // Initial render and attach chip events
+    render();
+    attachChipEvents();
+    sortSel.addEventListener("change", e => { sortMode = e.target.value; render(); });
+    mClose.addEventListener("click", () => modal.close());
+
+    // Floating hearts generator
+    const hearts=document.getElementById("hearts");
+    function makeHeart(){
+      const h=document.createElement("div");
+      h.className="heart";
+      h.textContent="❤";
+      h.style.left=Math.random()*100+"%";
+      h.style.fontSize=12+Math.random()*24+"px";
+      h.style.animationDuration=5+Math.random()*5+"s";
+      hearts.appendChild(h);
+      setTimeout(()=>h.remove(),10000);
+    }
+    setInterval(makeHeart,800);
+  </script>
+  <footer style="margin-top:40px;padding:24px 0 16px 0;text-align:center;background:linear-gradient(90deg,#ffe4ec 60%,#ffb6d1 100%);color:#a05a8c;font-family:'Cherry Cream Soda',cursive;font-size:1.1em;letter-spacing:1px;">
+    Made with <span style="color:#ff66a3;font-size:1.2em;">&#10084;&#65039;</span> in Tamil Nadu &mdash; <b>Love Trezy</b> &copy; 2025
+    <br>
+    <span style="font-size:0.95em;color:#a05a8c;">
+      Designed by love trazy | Follow us on 
+      <a href="https://instagram.com/" style="color:#ff66a3;text-decoration:none;" target="_blank">Instagram</a> &amp; 
+      <a href="https://twitter.com/" style="color:#ff66a3;text-decoration:none;" target="_blank">Twitter</a>
+    </span>
+  </footer>
+</body>
+</html>

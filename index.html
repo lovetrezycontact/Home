@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Trezy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Irish+Grover&family=Josefin+Slab:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css" />
+<!-- Favicons -->
+  <link href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJeEvijpEqk8x8zUHh5tBS4qsnn3z8ymIwUzmGNraw3P3u8LQB2PkfHJW1hIKu7hd8TeA3wFF6dRFSf3dGAyu9BjKfXWUjNLSRbwOIPgjB-571Snqu3KM1WjQkObHehbJi0vnUNo5llG9qQruijylKtki9PTrQTlOsKqG663mkbx-x753KpjjPKekzZGCa/s320/Movie__3_-removebg-preview.png" rel="icon">
+
+  <style>
+        /* Search Popup Styles */
+    .nav-search-icon {
+      background: none;
+      border: none;
+      color: #ff4c91;
+      font-size: 1.7em;
+      cursor: pointer;
+      margin-left: 18px;
+      transition: color 0.2s;
+      outline: none;
+      vertical-align: middle;
+    }
+    .nav-search-icon:hover {
+      color: #ff69b4;
+      text-shadow: 0 0 12px #ffb6d1;
+    }
+    .search-popup-bg {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.25);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+    }
+    .search-popup-bg.active {
+      display: flex;
+    }
+    .search-popup-box {
+      background: #fff;
+      border-radius: 0;
+      box-shadow: 0 0 32px 8px #ff4c91cc, 0 0 48px 16px #ffb6d1aa;
+      padding: 0;
+      min-width: 100vw;
+      min-height: 100vh;
+      max-width: 100vw;
+      max-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: popup-fadein 0.3s;
+    }
+    .search-popup-box input[type="text"] {
+      margin-top: 60px;
+      font-size: 1.5em;
+      width: 60vw;
+      max-width: 420px;
+      min-width: 180px;
+    }
+    .search-popup-close {
+      position: absolute;
+      top: 24px; right: 32px;
+    }
+    .search-popup-suggestions {
+      top: 140px;
+      max-width: 420px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    @media (max-width: 600px) {
+      .search-popup-box input[type="text"] {
+        width: 90vw;
+        font-size: 1.1em;
+        margin-top: 40px;
+      }
+      .search-popup-box {
+        padding: 0;
+      }
+      .search-popup-suggestions {
+        top: 110px;
+        max-width: 90vw;
+      }
+      .search-popup-close {
+        top: 14px; right: 16px;
+      }
+    }
+    @keyframes popup-fadein {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .search-popup-suggestions {
+      width: 100%;
+      max-width: 260px;
+      background: #fff8fc;
+      border-radius: 12px;
+      box-shadow: 0 0 10px 2px #ffb6d1aa;
+      margin-bottom: 10px;
+      padding: 6px 0 2px 0;
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: none;
+    }
+    .search-popup-suggestions.active {
+      display: block;
+    }
+    .search-popup-suggestions ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .search-popup-suggestions li {
+      padding: 8px 18px;
+      color: #ff4c91;
+      cursor: pointer;
+      font-size: 1em;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .search-popup-suggestions li:hover {
+      background: #ffe0ef;
+    }
+    .search-popup-box input[type="text"] {
+      padding: 12px 18px;
+      border-radius: 22px;
+      border: none;
+      outline: none;
+      font-size: 1.1em;
+      background: #fff;
+      box-shadow: 0 0 18px 4px #ff4c91cc, 0 0 32px 8px #ffb6d1aa;
+      color: #ff4c91;
+      width: 220px;
+      margin-bottom: 18px;
+      transition: box-shadow 0.3s, background 0.2s;
+    }
+    .search-popup-box input[type="text"]:focus {
+      background: #fff8fc;
+      box-shadow: 0 0 32px 8px #ff4c91ee, 0 0 48px 16px #ffb6d1cc;
+    }
+    .search-popup-close {
+      position: absolute;
+      top: 10px; right: 14px;
+      background: none;
+      border: none;
+      color: #ff4c91;
+      font-size: 1.5em;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .search-popup-close:hover {
+      color: #ff69b4;
+    }
+    @media (max-width: 600px) {
+      .search-popup-box input[type="text"] {
+        width: 140px;
+        font-size: 1em;
+      }
+      .search-popup-box {
+        padding: 22px 8px 16px 8px;
+      }
+    }
+
+    /* Glowing Search Bar */
+    .nav-search-bar {
+      display: flex;
+      align-items: center;
+      margin-left: 18px;
+    }
+    .nav-search-bar input[type="text"] {
+      padding: 8px 16px;
+      border-radius: 22px;
+      border: none;
+      outline: none;
+      font-size: 1em;
+      background: #fff;
+      box-shadow: 0 0 12px 2px #ff4c91cc, 0 0 24px 4px #ffb6d1aa;
+      transition: box-shadow 0.3s, background 0.2s;
+      color: #ff4c91;
+      width: 150px;
+      margin-right: 6px;
+    }
+    .nav-search-bar input[type="text"]:focus {
+      background: #fff8fc;
+      box-shadow: 0 0 24px 6px #ff4c91ee, 0 0 32px 8px #ffb6d1cc;
+    }
+    .nav-search-bar button {
+      background: #ff4c91;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+      box-shadow: 0 0 12px 2px #ff4c91cc;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.3s;
+    }
+    .nav-search-bar button:hover {
+      background: #ff69b4;
+      box-shadow: 0 0 24px 6px #ff69b4cc;
+    }
+    @media (max-width: 600px) {
+      .nav-search-bar input[type="text"] {
+        width: 100px;
+        font-size: 0.95em;
+      }
+      .nav-search-bar {
+        margin-left: 0;
+        margin-top: 8px;
+      }
+    }
+
+        @media (max-width: 600px) {
+      header p {
+        margin-left: 22px !important;
+        margin-right: 22px !important;
+      }
+    }
+.arrow {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9;
+}
+.arrow a {
+  height: 39px;
+  width: 37px;
+  text-align: center;
+  background: #1b1b1b;
+  display: block;
+  border-radius: 3px;
+}
+.arrow a span {
+  color: #f2f2f2;
+  font-size: 25px;
+  line-height: 39px;
+  cursor: pointer;
+}
+    html {
+  scroll-behavior: smooth;
+}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Josefin Slab",serif;}
+    body{
+      background:#fff;
+      color:#333;
+      overflow-x:hidden;
+      position:relative;
+    }
+    header{
+      min-height:60vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      background:linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)),
+      url('https://i.pinimg.com/736x/fd/f4/d1/fdf4d10a38cd605945231e7c52168f3c.jpg') no-repeat center/cover;
+      color:#ff4c91;
+      position:relative;
+      z-index:1;
+    }
+    header h1{font-size:3rem;text-shadow:0 0 15px rgba(255,76,145,0.5);}
+    header p{margin:20px 0;font-size:1.3rem;color:#444;}
+    header a{padding:12px 24px;background:#ff4c91;color:#fff;border-radius:30px;font-weight:bold;transition:0.3s;box-shadow:0 0 15px #ff4c91;text-decoration:none;}
+    header a:hover{background:#ff69b4;box-shadow:0 0 25px #ff69b4;}
+    
+
+    nav{background:#f7f7f7;padding:15px;display:flex;justify-content:center;gap:25px;position:sticky;top:0;z-index:10;border-bottom:2px solid #ff4c91;}
+    nav a{color:#444;text-decoration:none;font-weight:bold;transition:0.3s;}
+    nav a:hover{color:#ff4c91;text-shadow:0 0 10px #ffb6d1;}
+
+    @media (max-width: 600px) {
+      nav {
+        padding: 7px !important;
+        gap: 10px !important;
+      }
+      nav a {
+        font-size: 0.98em !important;
+        padding: 4px 7px !important;
+      }
+      .nav-search-icon {
+        font-size: 1.1em !important;
+        width: 26px !important;
+        height: 26px !important;
+      }
+    }
+
+    section{padding:60px 20px;text-align:center;position:relative;z-index:1;}
+    section h2{font-size:2.5rem;margin-bottom:20px;color:#ff4c91;text-shadow:0 0 10px rgba(255,76,145,0.5);}
+    section p{max-width:650px;margin:0 auto 30px;color:#444;}
+
+    .posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;margin-top:20px;}
+    .post{background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 0 15px rgba(255,76,145,0.2);transition:transform 0.3s ease,box-shadow 0.3s ease;}
+    .post img{width:100%;height:200px;object-fit:cover;border-bottom:2px solid #ff4c91;}
+    .post h3{font-size:1.5rem;margin:15px;color:#ff4c91;}
+    .post p{padding:0 15px 15px;font-size:1rem;color:#444;}
+    .post button{margin:15px;padding:10px 20px;border:none;border-radius:25px;background:#ff4c91;color:#fff;font-weight:bold;cursor:pointer;box-shadow:0 0 15px #ff4c91;transition:0.3s;}
+    .post button:hover{background:#ff69b4;box-shadow:0 0 25px #ff69b4;}
+    .post:hover{transform:translateY(-10px);box-shadow:0 0 25px rgba(255,76,145,0.5);}
+
+    /* Heart Divider */
+    .heart-divider {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 60px 0;
+    }
+    .heart-divider span {
+      color: #ff4c91;
+      font-size: 20px;
+      margin: 0 6px;
+      animation: bounce 1.2s infinite;
+      text-shadow: 0 0 8px #ffb6d1;
+    }
+    .heart-divider span:nth-child(odd) { animation-delay: 0.3s; }
+    .heart-divider span:nth-child(even) { animation-delay: 0.6s; }
+    @keyframes bounce {
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-8px);}
+    }
+
+    footer{background:#fff;color:#444;padding:30px;display:flex;flex-direction:column;align-items:center;
+      border-top:2px solid #ff4c91;box-shadow:0 0 20px rgba(255,76,145,0.3);position:relative;z-index:1;}
+    footer .logo{font-family:"Irish Grover",cursive;font-size:40px;text-align:center;color:#ff4c91;text-shadow:0 0 15px #ffb6d1;}
+    footer p{text-align:center;max-width:500px;margin:15px 0;}
+    footer .sm,footer .links{display:flex;justify-content:center;align-items:center;list-style:none;margin:10px 0;}
+    footer .sm li,footer .links li{margin:0 12px;}
+    footer .sm li a{font-size:25px;color:#444;transition:0.3s;padding:8px;}
+    footer .sm li a:hover{color:#ff4c91;text-shadow:0 0 15px #ff4c91;}
+    footer .links li a{color:#444;text-decoration:none;transition:0.3s;}
+    footer .links li a:hover{color:#ff4c91;text-shadow:0 0 10px #ff4c91;}
+    footer .copyright{text-align:center;padding-top:20px;width:100%;border-top:1}
+
+    /* Floating Hearts BG */
+    .hearts {
+      position: fixed;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:0;
+    }
+    .heart {position:absolute;color:#ff4c91;font-size:20px;animation:floatHearts linear infinite;opacity:0.8;}
+    @keyframes floatHearts {
+      0% {transform: translateY(100vh) scale(0.5);opacity: 0;}
+      50% {opacity: 1;}
+      100% {transform: translateY(-10vh) scale(1.2);opacity: 0;}
+    }
+    /* Loader Styles */
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #ffb6d1;
+  border-top: 6px solid #ff4c91;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+  /* Center navigation on all devices */
+  .nav-sidebar {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center nav content */
+    width: 100%;
+    background: #f7f7f7;
+    padding: 15px;
+    gap: 18px;
+    border-bottom: 2px solid #ff4c91;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  /* Sidebar menu for all devices, but right side on mobile */
+  .nav-sidebar-btn {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.8em;
+    color: #ff4c91;
+    margin-left: 8px;
+    cursor: pointer;
+    z-index: 1002;
+  }
+  .sidebar-menu {
+    position: fixed;
+    top: 0;
+    left: -100vw;
+    width: 70vw;
+    max-width: 320px;
+    height: 100vh;
+    background: #fff;
+    box-shadow: 2px 0 24px #ffb6d1aa;
+    z-index: 1001;
+    transition: left 0.3s, right 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+  }
+  .sidebar-menu.active {
+    left: 0;
+  }
+  @media (max-width: 600px) {
+    .nav-sidebar {
+      justify-content: center;
+    }
+    .nav-sidebar-btn {
+      margin-left: 0;
+      margin-right: 0;
+      order: 3;
+    }
+    .sidebar-menu {
+      left: auto;
+      right: -100vw;
+      transition: right 0.3s;
+      align-items: center;
+      padding-top: 60px;
+    }
+    .sidebar-menu.active {
+      left: auto;
+      right: 0;
+    }
+  }
+  .sidebar-menu a {
+    display: block;
+    text-align: center;
+    margin: 18px 0;
+    font-size: 1.2em;
+    color: #ff4c91;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .sidebar-menu a:hover {
+    color: #ff69b4;
+  }
+  .sidebar-menu .close-sidebar {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: #ff4c91;
+    cursor: pointer;
+  }
+  </style>
+</head>
+<body>
+
+
+
+    <div class="arrow"> <a href="#" title="Back to Top"><span class="fas fa-caret-square-up"></span></a> </div>
+    <!-- Loader -->
+<div id="loader">
+  <div class="spinner"></div>
+</div>
+
+  <div class="hearts"></div>
+
+  <header>
+    <h1>Love Trezy</h1>
+    <p style="color: #333;"><b>Buy Your Lovely things and create a gift you want with Love Trezy.</b></p>
+    <a href="#godown">⇩ Go Down ⇩</a>
+  </header>
+
+  <nav class="nav-sidebar">
+  <a href="intex.html" id="godown" style="font-size: 1.3em; display: flex; align-items: center; gap: 7px;">
+    <i class="las la-home" style="font-size: 1.4em; vertical-align: middle;"></i>
+    Home
+  </a>
+  <a href="place1.html" style="font-size: 1.3em; font-weight: bold; padding: 8px 22px; border-radius: 8px; background: linear-gradient(90deg, #ffb347, #43e97b, #38f9d7, #ffb6d1, #ffb347); background-size: 300% 300%; color: #fff; box-shadow: 0 0 18px 4px #43e97b55, 0 0 32px 8px #ffb6d1aa; border: none; outline: none; animation: game-glow-move 2.5s linear infinite; transition: background 0.3s, box-shadow 0.3s; text-decoration: none; margin-left: 8px; display: flex; align-items: center; gap: 8px;">
+    <i class="las la-map-marked-alt" style="font-size: 1.4em; vertical-align: middle;"></i>
+    Lovely Places
+  </a>
+  <a href="#" id="gameNavBtn" class="game-anim-btn" style="font-size: 1.3em; font-weight: bold; padding: 8px 22px; border-radius: 8px; background: linear-gradient(90deg, #ff5c8a, #ffb347, #4fd1c5, #1976d2, #ff5c8a); background-size: 300% 300%; color: #fff; box-shadow: 0 0 18px 4px #ff5c8a99, 0 0 32px 8px #4fd1c555; border: none; outline: none; animation: game-glow-move 2.5s linear infinite; transition: background 0.3s, box-shadow 0.3s; text-decoration: none; margin-left: 8px;">
+    Game
+  </a>
+  <button class="nav-sidebar-btn" id="openSidebar" aria-label="Open menu"><i class="las la-bars"></i></button>
+</nav>
+
+
+<div class="sidebar-menu" id="sidebarMenu">
+  <button class="close-sidebar" id="closeSidebar" aria-label="Close menu">&times;</button>
+  <a href="#classic">Online order</a>
+  <a href="#outdoor">Try at home</a>
+</div>
+<script>
+  // Sidebar open/close logic for all devices (right side on mobile)
+  document.addEventListener("DOMContentLoaded", function() {
+    const openSidebar = document.getElementById('openSidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+    const sidebarMenu = document.getElementById('sidebarMenu');
+    function isMobile() {
+      return window.matchMedia('(max-width: 600px)').matches;
+    }
+    if (openSidebar && closeSidebar && sidebarMenu) {
+      openSidebar.onclick = () => {
+        sidebarMenu.classList.add('active');
+        if (isMobile()) {
+          sidebarMenu.style.left = 'auto';
+          sidebarMenu.style.right = '0';
+        } else {
+          sidebarMenu.style.left = '0';
+          sidebarMenu.style.right = 'auto';
+        }
+      };
+      closeSidebar.onclick = () => {
+        sidebarMenu.classList.remove('active');
+        sidebarMenu.style.left = isMobile() ? 'auto' : '-100vw';
+        sidebarMenu.style.right = isMobile() ? '-100vw' : 'auto';
+      };
+      sidebarMenu.onclick = (e) => {
+        if (e.target === sidebarMenu) {
+          sidebarMenu.classList.remove('active');
+          sidebarMenu.style.left = isMobile() ? 'auto' : '-100vw';
+          sidebarMenu.style.right = isMobile() ? '-100vw' : 'auto';
+        }
+      };
+    }
+  });
+</script>
+  <div class="search-popup-bg" id="searchPopupBg">
+    <form class="search-popup-box" onsubmit="event.preventDefault(); alert('Search: ' + this.search.value);" style="position:relative;">
+      <button type="button" class="search-popup-close" id="closeSearchPopup" title="Close"><i class="las la-times"></i></button>
+      <input type="text" name="search" id="aiSearchInput" placeholder="Search..." aria-label="Search" autocomplete="off" autofocus />
+      <div class="search-popup-suggestions" id="aiSearchSuggestions">
+        <ul></ul>
+      </div>
+      <button type="submit" style="background:#ff4c91;color:#fff;border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:1.2em;box-shadow:0 0 12px 2px #ff4c91cc;cursor:pointer;transition:background 0.2s,box-shadow 0.3s;"><i class="las la-search"></i></button>
+    </form>
+  <script>
+    // AI suggestion logic
+    const aiSuggestions = [
+      'Gift for girlfriend',
+      'Gift for boyfriend',
+      'Handmade card ideas',
+      'Anniversary surprise',
+      'Birthday gift',
+      'Love craft DIY',
+      'Personalized gifts',
+      'Romantic night lamp',
+      'Valentine’s Day ideas',
+      'Best friend gift',
+      'Cute home decor',
+      'Secret message card',
+      'Proposal ideas',
+      'Long distance love',
+      'Affordable gifts',
+      'Unique couple gifts'
+    ];
+    const aiInput = document.getElementById('aiSearchInput');
+    const aiSugBox = document.getElementById('aiSearchSuggestions');
+    const aiSugList = aiSugBox ? aiSugBox.querySelector('ul') : null;
+    if (aiInput && aiSugBox && aiSugList) {
+      aiInput.addEventListener('input', function() {
+        const val = this.value.trim().toLowerCase();
+        aiSugList.innerHTML = '';
+        if (val.length === 0) {
+          aiSugBox.classList.remove('active');
+          return;
+        }
+        const filtered = aiSuggestions.filter(s => s.toLowerCase().includes(val));
+        if (filtered.length === 0) {
+          aiSugBox.classList.remove('active');
+          return;
+        }
+        aiSugBox.classList.add('active');
+        filtered.forEach(s => {
+          const li = document.createElement('li');
+          li.textContent = s;
+          li.onclick = () => {
+            aiInput.value = s;
+            aiSugBox.classList.remove('active');
+            aiInput.focus();
+          };
+          aiSugList.appendChild(li);
+        });
+      });
+      aiInput.addEventListener('blur', function() {
+        setTimeout(() => aiSugBox.classList.remove('active'), 150);
+      });
+    }
+  </script>
+  </div>
+  <script>
+    // Search popup open/close logic
+    const openSearchPopup = document.getElementById('openSearchPopup');
+    const closeSearchPopup = document.getElementById('closeSearchPopup');
+    const searchPopupBg = document.getElementById('searchPopupBg');
+    if (openSearchPopup && closeSearchPopup && searchPopupBg) {
+      openSearchPopup.addEventListener('click', () => {
+        searchPopupBg.classList.add('active');
+        setTimeout(() => {
+          const input = searchPopupBg.querySelector('input[type="text"]');
+          if(input) input.focus();
+        }, 100);
+      });
+      closeSearchPopup.addEventListener('click', () => {
+        searchPopupBg.classList.remove('active');
+      });
+      searchPopupBg.addEventListener('click', (e) => {
+        if (e.target === searchPopupBg) searchPopupBg.classList.remove('active');
+      });
+    }
+  </script>
+
+  <!-- Game Popup -->
+  <div id="gamePopupBg" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.25); z-index:10001; justify-content:center; align-items:center;">
+    <div style="background:#fff; border-radius:18px; box-shadow:0 0 32px 8px #ff4c91cc, 0 0 48px 16px #ffb6d1aa; padding:32px 28px 24px 28px; min-width:240px; min-height:120px; display:flex; flex-direction:column; align-items:center; position:relative;">
+      <button onclick="document.getElementById('gamePopupBg').style.display='none'" style="position:absolute; top:10px; right:14px; background:none; border:none; font-size:1.5em; color:#ff4c91; cursor:pointer;">&times;</button>
+      <h3 style="margin:0 0 18px 0; color:#ff4c91; font-size:1.2em;">Choose a Game</h3>
+      <a href="game1.html" style="margin:8px 0 2px 0; font-size:1.1em; color:#fff; background:#ff4c91; border-radius:8px; padding:10px 28px; text-decoration:none; font-weight:bold; box-shadow:0 2px 12px #ffb6d1aa; display:block;">Truth or Dare</a><br>
+      <div style="font-size:0.98em; color:#ff4c91; margin-bottom:10px; text-align:center;">Classic party game for friends and fun!</div>
+      <a href="game2.html" style="margin:8px 0 2px 0; font-size:1.1em; color:#fff; background:#1976d2; border-radius:8px; padding:10px 28px; text-decoration:none; font-weight:bold; box-shadow:0 2px 12px #b6d1ffaa; display:block;">Love Quest</a><br>
+      <div style="font-size:0.98em; color:#1976d2; margin-bottom:4px; text-align:center;">A cozy, story-driven romance game!</div>
+      <a href="game3.html" style="margin:8px 0 2px 0; font-size:1.1em; color:#fff; background:#43e97b; border-radius:8px; padding:10px 28px; text-decoration:none; font-weight:bold; box-shadow:0 2px 12px #b6ffd1aa; display:block;">Memory Match</a><br>
+      <div style="font-size:0.98em; color:#43e97b; margin-bottom:4px; text-align:center;">Test your memory and find all the pairs!</div>
+    </div>
+  </div>
+  <script>
+    // Game popup logic
+    document.getElementById('gameNavBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('gamePopupBg').style.display = 'flex';
+    });
+    // Optional: close popup when clicking outside the box
+    document.getElementById('gamePopupBg').addEventListener('click', function(e) {
+      if(e.target === this) this.style.display = 'none';
+    });
+  </script>
+
+<!-- Mini Game Ad Popup (appears after 8 seconds) -->
+<div id="miniGameAdPopup" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.28); z-index:99999; justify-content:center; align-items:center;">
+  <div style="background:linear-gradient(120deg,#fffde4 60%,#ffe4ec 100%); border-radius:22px; box-shadow:0 0 32px 8px #ff4c91cc, 0 0 48px 16px #ffb6d1aa; padding:32px 28px 24px 28px; min-width:260px; max-width:95vw; min-height:120px; display:flex; flex-direction:column; align-items:center; position:relative;">
+    <button id="closeMiniGameAd" style="position:absolute; top:14px; right:18px; background:none; border:none; font-size:1.7em; color:#ff4c91; cursor:pointer;">&times;</button>
+    <img src="https://img.freepik.com/free-vector/romantic-couple-playing-board-game-home_74855-14115.jpg?w=400" alt="Game Fun" style="width:120px; border-radius:16px; box-shadow:0 0 12px #ffb6d1aa; margin-bottom:18px;">
+    <h3 style="margin:0 0 10px 0; color:#ff4c91; font-size:1.3em;">Try Our Fun Game Page!</h3>
+    <div style="color:#a05a8c; font-size:1.08em; margin-bottom:18px; text-align:center;">
+      Play <b>Truth or Dare</b>, <b>Love Quest</b>, and more! Enjoy with friends or your special one.<br>
+      <span style="color:#ff66a3;">New games added every month!</span>
+    </div>
+    <a href="game1.html" style="background:linear-gradient(90deg,#ffb347,#43e97b,#38f9d7,#ffb6d1,#ffb347);background-size:300% 300%;color:#fff;font-weight:bold;padding:12px 36px;border-radius:28px;text-decoration:none;box-shadow:0 0 18px 4px #43e97b55,0 0 32px 8px #ffb6d1aa;font-size:1.13em;animation:game-glow-move 2.5s linear infinite;transition:background 0.3s,box-shadow 0.3s;display:inline-block;margin-bottom:8px;">
+      <i class="las la-gamepad" style="font-size:1.2em;vertical-align:middle;margin-right:7px;"></i>
+      Go to Game Page
+    </a>
+    <div style="margin-top:10px; color:#888; font-size:0.98em;">
+      This popup will close in <span id="miniAdTimer" style="color:#ff4c91;font-weight:bold;">8</span> sec.
+    </div>
+  </div>
+</div>
+<script>
+  // Mini Game Ad Popup Logic
+  let miniAdTimeout, miniAdInterval;
+  // Use localStorage to show ad only once per session
+  function showMiniGameAdPopup() {
+    // Only show if not already closed this session
+    if (sessionStorage.getItem('miniGameAdClosed') === '1') return;
+    const popup = document.getElementById('miniGameAdPopup');
+    const timerSpan = document.getElementById('miniAdTimer');
+    let timeLeft = 8;
+    popup.style.display = 'flex';
+    timerSpan.textContent = timeLeft;
+    miniAdInterval = setInterval(() => {
+      timeLeft--;
+      timerSpan.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(miniAdInterval);
+        popup.style.display = 'none';
+        sessionStorage.setItem('miniGameAdClosed', '1');
+      }
+    }, 1000);
+  }
+  // Show popup after 8 seconds
+  window.addEventListener('DOMContentLoaded', function() {
+    if (sessionStorage.getItem('miniGameAdClosed') !== '1') {
+      miniAdTimeout = setTimeout(showMiniGameAdPopup, 8000);
+    }
+  });
+  // Cancel button logic
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.id === 'closeMiniGameAd') {
+      document.getElementById('miniGameAdPopup').style.display = 'none';
+      clearTimeout(miniAdTimeout);
+      clearInterval(miniAdInterval);
+      sessionStorage.setItem('miniGameAdClosed', '1');
+    }
+  });
+</script>
+
+
+<!-- Outdoor & Rooms Section -->
+<section id="outdoor">
+   
+<!-- Big, multi-color animated musical post for Lovers Music Space with image removed -->
+<div style="width:90%;padding:5% 5%;margin:48px auto 0 auto;background:linear-gradient(90deg,#ffe4ec 0%,#ffb6d1 50%,#43e97b 100%);border-radius:28px;box-shadow:0 0 32px #ffb6d133;text-align:center;display:flex;align-items:center;gap:28px;animation:trendGlow 2.5s linear infinite;">
+  <!-- Image removed -->
+  <div style="flex:1;">
+    <div style="font-weight:bold;color:#ff4c91;font-size:1.7em;letter-spacing:1px;">
+      <span style="background:linear-gradient(90deg,#ffb347,#43e97b,#ffb6d1);background-size:300% 300%;color:#fff;padding:6px 22px;border-radius:18px;font-size:1.05em;box-shadow:0 0 12px #ffb6d1aa;display:inline-block;margin-bottom:12px;animation:trendGlow 2.5s linear infinite;">Trend</span>
+      <br>
+      Lovers Music Space
+    </div>
+    <div style="color:#a05a8c;font-size:1.18em;margin:12px 0 18px 0;">
+      Explore the top 20 romantic songs in your language!<br>
+      Enjoy a musical journey for lovers and friends. 🎶💕
+    </div>
+    <a href="music1.html" style="display:inline-block;background:linear-gradient(90deg,#ffb347,#ffb6d1,#43e97b,#38f9d7);background-size:300% 300%;color:#fff;font-weight:bold;padding:14px 32px;border-radius:28px;text-decoration:none;box-shadow:0 0 18px #ffb6d1aa;font-size:1.15em;transition:background 0.3s;animation:trendGlow 2.5s linear infinite;">
+      Listen Now &rarr;
+    </a>
+  </div>
+</div>
+<!-- ...existing code... -->
+<br>
+<br>
+  <h2>Home made Love craft easy...</h2>
+  <p>💖 easy to make and cost effective 💖! let's do it!</p>
+  <div class="posts">
+    <div class="post">
+  <img src="https://img.youtube.com/vi/aUIIo-EUTj4/maxresdefault.jpg" alt="image">
+      <h3>handmade greeting card.</h3>
+      <p>A simple handmade greeting card decorated with layered heart cut-outs. Perfect for gifting to loved ones on special occasions. Easy DIY idea using just paper, scissors, glue, and creativity.</p>
+      <button><a  href="page1.html"  style="color:white;">View More >></a></button>
+    </div>
+    <div class="post">
+  <img src="https://img.youtube.com/vi/s0ChO8Bav24/maxresdefault.jpg" alt="image">
+      <h3>Handmade Pop-Up Greeting Card.
+</h3>
+      <p>A cute DIY pop-up card decorated with teddy bear and heart cut-outs. Perfect for gifting to loved ones on birthdays, anniversaries, or special days. Easy, fun, and heartfelt! 💖
+
+</p>
+      <button><a  href="page2.html"  style="color:white;">View More >></a></button>
+    </div>
+    <div class="post">
+  <img src="https://img.youtube.com/vi/XfTETEU3SYY/maxresdefault.jpg" alt="image">
+      <h3>Secret-Message Valentine Card.
+</h3>
+      <p>A creative DIY Valentine card with a hidden message flap ❤️ Perfect surprise for loved ones on special occasions.
+</p>
+      <button><a  href="page3.html"  style="color:white;">View More >></a></button>
+    </div>
+
+    <!-- Hidden Last Post -->
+    <div class="post read-more-post" style="display:none;">
+  <img src="https://img.youtube.com/vi/uT-LqJZqo04/maxresdefault.jpg" alt="image">
+      <h3>Valentine’s Day Pop-up Gift Card
+</h3>
+      <p>A beautiful DIY pop-up Valentine card ❤️ with hearts, hidden notes, and a surprise effect.
+</p>
+      <button><a  href="page4.html"  style="color:white;">View More >></a></button>
+    </div>
+  </div>
+
+  <!-- Read More Button -->
+  <button id="readMoreBtn" style="margin-top:20px; padding:12px 25px; border:none; border-radius:30px; background:#ff4c91; color:#fff; font-weight:bold; cursor:pointer; box-shadow:0 0 15px #ff4c91; transition:0.3s;">
+    Read More
+  </button>
+</section>
+  <!-- Heart Divider -->
+  <div class="heart-divider">
+    <span>💖</span><span>💖</span><span>💖</span><span>💖</span>
+    <span>💖</span><span>💖</span><span>💖</span>
+  </div>
+  <!-- Classic Interiors Section -->
+  <section id="classic">
+    <h2>Online order with Amazon.</h2>
+    <p>Discover timeless interiors filled with warmth, elegance, and luxury.</p>
+    <div class="note-warning-glow">
+      <span class="note-icon">&#128221;</span>
+      <span class="note-text">This month trending top 10 item only here.</span>
+    </div>
+<style>
+.note-warning-glow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 18px auto 16px auto;
+  padding: 14px 28px;
+  border-radius: 14px;
+  border: 2.5px solid #ffb6d1;
+  background: linear-gradient(90deg, #fffafd 60%, #ffeef7 100%);
+  box-shadow: 0 0 18px 4px #ffb6d1aa, 0 0 32px 8px #ffd6e6aa;
+  max-width: 480px;
+  font-size: 1.13em;
+  position: relative;
+  animation: note-glow 2.2s infinite alternate;
+}
+.note-icon {
+  font-size: 1.7em;
+  margin-right: 12px;
+  color: #ff4c91;
+  filter: drop-shadow(0 0 8px #ffb6d1cc);
+  animation: note-bounce 1.2s infinite;
+}
+.note-text {
+  color: #d50057;
+  font-weight: bold;
+  letter-spacing: 0.01em;
+  text-shadow: 0 0 8px #ffb6d1cc, 0 0 2px #fff;
+  animation: note-fade 2s infinite alternate;
+}
+@keyframes note-bounce {
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-7px);}
+}
+@keyframes note-fade {
+  from { opacity: 0.7; }
+  to { opacity: 1; }
+}
+@keyframes note-glow {
+  from { box-shadow: 0 0 18px 4px #ffb6d1aa, 0 0 32px 8px #ffd6e6aa; }
+  to { box-shadow: 0 0 32px 12px #ffb6d1cc, 0 0 48px 16px #ffd6e6cc; }
+}
+</style>
+    <div class="posts">
+      <div class="post">
+  <img src="https://m.media-amazon.com/images/I/51v8vkI-LuL.jpg" alt="image">
+        <h3>Crystal LED Night Lamp.</h3>
+        <p>Desidiya® Lying Panda Night Light.Soft Silicone Color-Changing LED Touch Lamp with Timer for Bedroom & Office.</p>
+        <button><a href="pageo1.html"  style="color:white;">View More >></a></button>
+      </div>
+      <div class="post">
+  <img src="https://m.media-amazon.com/images/I/51mcAG8wxVL._SX679_.jpg" alt="image">
+        <h3>Cute Lying Panda Night Light.</h3>
+        <p>Soft Silicone Color-Changing LED Touch Lamp with Timer for Bedroom & Office</p>
+        <button><a  href="pageo2.html"  style="color:white;">View More >></a></button>
+      </div>
+      <div class="post">
+  <img src="https://m.media-amazon.com/images/I/61pVfFEfN5L._SY675_.jpg" alt="image">
+        <h3>Via Mazzini Valentine Couple Chain Gift.</h3>
+        <p>Romantic Anniversary / Valentine’s Gift Chain for Couple.
+
+</p>
+        <button><a  href="pageo3.html"  style="color:white;">View More >></a></button>
+      </div>
+      <div class="post">
+  <img src="https://m.media-amazon.com/images/I/81alNo4AFSL._SX679_.jpg" alt="image">
+        <h3>Combo Couple gift.
+</h3>
+        <p>This pack inside things-printed mug,meggage bottle, desktop frame,i love you Keychain.
+
+</p>
+        <button><a  href="pageo4.html"  style="color:white;">View More >></a></button>
+      </div>
+    </div>
+    <!-- Mini Ad for Lovely Places (Big, with 2 posts, below navigation) -->
+<div style="background:linear-gradient(90deg,#fffde4 60%,#ffe4ec 100%);border-radius:18px;padding:28px 24px 18px 24px;margin:28px auto 0 auto;max-width:700px;box-shadow:0 0 18px #ffb6d133;text-align:center;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px;">
+    <span style="font-size:2.2em;color:#ff66a3;vertical-align:middle;"><i class="las la-map-marked-alt"></i></span>
+    <span style="color:#a05a8c;font-size:1.25em;">
+      <b>Lovely Places</b> in Tamil Nadu for couples & friends!<br>
+      <a href="place1.html" style="color:#ff66a3;font-weight:bold;text-decoration:underline;margin-left:6px;font-size:1.1em;">Explore All &rarr;</a>
+    </span>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:18px;">
+    <!-- Post 1 -->
+    <div style="background:linear-gradient(135deg,#ffe4ec 60%,#e0c3fc 100%);border-radius:14px;box-shadow:0 0 14px #ffb6d122;max-width:270px;flex:1 1 220px;padding:0 0 16px 0;display:flex;flex-direction:column;align-items:center;">
+      <img src="https://images.unsplash.com/photo-1548013146-72479768bada?w=400" alt="Coonoor" style="width:100%;height:120px;object-fit:cover;border-radius:14px 14px 0 0;">
+      <div style="padding:10px 12px 0 12px;">
+        <div style="font-weight:bold;color:#ff66a3;font-size:1.08em;">Coonoor</div>
+        <div style="color:#a05a8c;font-size:0.97em;margin-top:4px;">A serene hill station in the Nilgiris, famous for its lush tea gardens, misty valleys, and romantic toy train rides.</div>
+      </div>
+      <a href="place1.html" style="margin-top:12px;background:linear-gradient(90deg,#ffb347,#ffb6d1,#43e97b,#38f9d7);background-size:300% 300%;color:#fff;font-weight:bold;padding:8px 22px;border-radius:22px;text-decoration:none;box-shadow:0 0 12px #ffb6d1aa;font-size:1em;transition:background 0.3s;">See More &rarr;</a>
+    </div>
+    <!-- Post 2 -->
+    <div style="background:linear-gradient(135deg,#fffde4 60%,#ffb6d1 100%);border-radius:14px;box-shadow:0 0 14px #ffb6d122;max-width:270px;flex:1 1 220px;padding:0 0 16px 0;display:flex;flex-direction:column;align-items:center;">
+      <img src="https://images.unsplash.com/photo-1503832725-cb57d7a5f43d?w=400" alt="Ooty" style="width:100%;height:120px;object-fit:cover;border-radius:14px 14px 0 0;">
+      <div style="padding:10px 12px 0 12px;">
+        <div style="font-weight:bold;color:#ff66a3;font-size:1.08em;">Ooty</div>
+        <div style="color:#a05a8c;font-size:0.97em;margin-top:4px;">The 'Queen of Hill Stations', Ooty is a dreamy destination with botanical gardens, lakes, and breathtaking mountain views.</div>
+      </div>
+      <a href="place1.html" style="margin-top:12px;background:linear-gradient(90deg,#43e97b,#38f9d7,#ffb347,#ffb6d1);background-size:300% 300%;color:#fff;font-weight:bold;padding:8px 22px;border-radius:22px;text-decoration:none;box-shadow:0 0 12px #ffb6d1aa;font-size:1em;transition:background 0.3s;">See More &rarr;</a>
+    </div>
+  </div>
+  <div style="margin-top:22px;">
+    <a href="place1.html" style="display:inline-block;background:linear-gradient(90deg,#ffb347,#43e97b,#38f9d7,#ffb6d1,#ffb347);background-size:300% 300%;color:#fff;font-weight:bold;padding:12px 36px;border-radius:28px;text-decoration:none;box-shadow:0 0 18px 4px #43e97b55,0 0 32px 8px #ffb6d1aa;font-size:1.18em;animation:game-glow-move 2.5s linear infinite;transition:background 0.3s,box-shadow 0.3s;">
+      <i class="las la-map-marked-alt" style="font-size:1.3em;vertical-align:middle;margin-right:7px;"></i>
+      Go to Lovely Places
+    </a>
+  </div>
+</div>
+
+  </section>
+
+
+  <footer>
+    <h2 class="logo">Love Trezy</h2>
+    <p>Love Trezy is your go-to platform for trendy, unique, and affordable gifts for lovers and friends. From creative gift ideas to easy-to-follow tutorials, we show you how to make every gesture meaningful. Explore modern designs, discover special products, and order directly from original sources—all to make every moment unforgettable. Love Trezy helps you celebrate love, friendship, and thoughtful surprises in style.</p>
+    <ul class="sm">
+      <li><a href="#"><i class="lab la-youtube"></i></a></li>
+      <li><a href="#"><i class="lab la-facebook"></i></a></li>
+      <li><a href="#"><i class="lab la-instagram"></i></a></li>
+    </ul>
+    <ul class="links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#classic">Classic</a></li>
+      <li><a href="#outdoor">Outdoor</a></li>
+    </ul>
+    <p class="copyright">&copy; <span id="year"></span> Love Trezy | All Rights Reserved</p>
+  </footer>
+
+  <script>
+    document.getElementById("year").innerHTML = new Date().getFullYear();
+
+    const heartsContainer = document.querySelector(".hearts");
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "&#10084;";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 10 + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      heartsContainer.appendChild(heart);
+      setTimeout(() => { heart.remove(); }, 6000);
+    }
+    setInterval(createHeart, 400);
+  </script>
+  <script>
+  const readMoreBtn = document.getElementById("readMoreBtn");
+  const readMorePost = document.querySelector(".read-more-post");
+
+  readMoreBtn.addEventListener("click", () => {
+    readMorePost.style.display = "block"; // always show
+  });
+  // Hide loader when page is fully loaded
+window.addEventListener("load", function() {
+  const loader = document.getElementById("loader");
+  loader.style.opacity = "0";
+  loader.style.transition = "opacity 0.5s ease";
+  setTimeout(() => loader.style.display = "none", 2000);
+});
+
+</script>
+</body>
+</html>

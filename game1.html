@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Truth or Dare Game in Love Trezy</title>
+  <style>
+    body{
+      margin:0; font-family:Arial, sans-serif; color:#fff; display:flex; justify-content:center; align-items:center; height:100vh;
+      overflow:hidden;
+      position:relative;
+      background: #181824;
+    }
+    .venom-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .venom-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(32px) brightness(0.8);
+      opacity: 0.7;
+      mix-blend-mode: lighten;
+      animation: venomMove 12s ease-in-out infinite alternate;
+    }
+    .venom-blob1 { width: 420px; height: 420px; background: #6a0572; left: 5vw; top: 40vh; animation-delay: 0s; }
+    .venom-blob2 { width: 320px; height: 320px; background: #120078; left: 60vw; top: 10vh; animation-delay: 2s; }
+    .venom-blob3 { width: 260px; height: 260px; background: #ff1493; left: 30vw; top: 70vh; animation-delay: 4s; }
+    .venom-blob4 { width: 180px; height: 180px; background: #00c9a7; left: 80vw; top: 60vh; animation-delay: 1s; }
+    @keyframes venomMove {
+      0%   { transform: scale(1) translateY(0) rotate(0deg); opacity: 0.7; }
+      40%  { transform: scale(1.15) translateY(-30px) rotate(20deg); opacity: 0.8; }
+      60%  { transform: scale(0.95) translateY(30px) rotate(-15deg); opacity: 0.6; }
+      100% { transform: scale(1.1) translateY(-10px) rotate(10deg); opacity: 0.7; }
+    }
+    .container{ text-align:center; }
+    button{
+      padding:14px 22px; margin:8px; border:none; border-radius:10px; cursor:pointer; font-weight:bold; font-size:16px; color:#fff; background:linear-gradient(90deg, #ff69b4 0%, #ff1493 100%); box-shadow:0 0 15px #ff1493, 0 0 30px #ff69b4; transition:transform 0.1s ease, background 0.2s;
+    }
+    button:hover{ transform:scale(1.05); background:linear-gradient(90deg, #ff1493 0%, #ff69b4 100%); }
+    .hidden{ display:none; }
+    #promptBox{ margin-top:20px; padding:20px; border-radius:10px; background:#3a003a; box-shadow:0 0 15px #ff1493; min-height:60px; color:#fff; }
+    .overlay{ position:fixed; inset:0; background:rgba(255, 113, 217, 0.8); display:none; justify-content:center; align-items:center; }
+    .overlay.open{ display:flex; }
+    .modal{ background:#a8006b; padding:20px; border-radius:12px; box-shadow:0 0 20px #ff69b4; max-width:400px; text-align:left; color:#fff; }
+    .modal h3{ margin-top:0; color:#ffb6e6; }
+    .close{ background:#ff1493; margin-top:10px; }
+    .nav-round {
+      position: fixed;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 32px;
+      z-index: 20;
+      padding: 6px 16px;
+      border-radius: 28px;
+      background: rgba(255, 105, 180, 0.18);
+      box-shadow: 0 8px 32px 0 #ff69b488, 0 1.5px 16px 0 #ff149388;
+      backdrop-filter: blur(8px);
+      /* border removed for clean look */
+    }
+    @media (max-width: 600px) {
+      .nav-round {
+        gap: 10px;
+        top: auto;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 8px 18px;
+        border-radius: 32px 32px 32px 32px/40px 40px 40px 40px;
+        background: rgba(255, 255, 255, 0.18);
+        box-shadow: 0 2px 24px 0 #ff69b4cc, 0 1.5px 8px 0 #ff149388;
+        backdrop-filter: blur(12px);
+      }
+      .nav-btn-round { width: 28px; height: 28px; font-size: 0.9em; }
+      /* Mobile-specific venom blobs */
+      .venom-blob1 { width: 180px; height: 180px; background: #ff1493; left: 10vw; top: 70vh; animation-delay: 0s; }
+      .venom-blob2 { width: 120px; height: 120px; background: #00c9a7; left: 60vw; top: 10vh; animation-delay: 1.5s; }
+      .venom-blob3 { width: 90px; height: 90px; background: #6a0572; left: 30vw; top: 30vh; animation-delay: 2.5s; }
+      .venom-blob4 { width: 70px; height: 70px; background: #120078; left: 80vw; top: 60vh; animation-delay: 0.5s; }
+
+      body, html {
+        height: 100vh;
+        min-height: 100vh;
+      }
+      .container {
+        justify-content: flex-start !important;
+        align-items: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 100vh;
+        width: 100vw;
+        padding-top: 18vw;
+      }
+      #intro, #game {
+        margin-top: 0 !important;
+      }
+    }
+    .nav-btn-round {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+      color: #fff;
+      font-size: 1.1em;
+      box-shadow: 0 4px 16px #ff69b4a0, 0 0 0 4px #fffbe633;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-btn-round::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fffbe6cc 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 1;
+    }
+    .nav-btn-round:hover {
+      transform: scale(1.16) rotate(-6deg);
+      box-shadow: 0 0 32px #ff1493cc, 0 0 0 8px #fffbe655;
+      border-color: #ffb6e6;
+    }
+    .nav-btn-round:hover::after {
+      opacity: 0.18;
+    }
+  </style>
+</head>
+<body>
+    <div class="venom-bg">
+      <div class="venom-blob venom-blob1"></div>
+      <div class="venom-blob venom-blob2"></div>
+      <div class="venom-blob venom-blob3"></div>
+      <div class="venom-blob venom-blob4"></div>
+    </div>
+  <div class="container">
+    <div id="intro">
+      <h1>Truth or Dare</h1>
+      <button id="letsGo">Let's Go — Start the Fun!</button>
+      <button id="rulesBtn">Rules</button>
+    </div>
+
+    <div id="game" class="hidden">
+      <button id="truthBtn">Truth</button>
+      <button id="dareBtn">Dare</button>
+      <div id="promptBox">Pick Truth or Dare to get started.</div>
+      <button id="backBtn">Back</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="rulesOverlay">
+    <div class="modal">
+      <h3>Rules</h3>
+      <ol>
+        <li>Choose who goes first.</li>
+        <li>Pick Truth or Dare.</li>
+        <li>Press the button to get a random prompt.</li>
+        <li>If you don’t like it, shuffle for a new one.</li>
+        <li>Next player’s turn!</li>
+      </ol>
+      <button class="close" id="closeRules">Close</button>
+    </div>
+  </div>
+
+  <div class="nav-round">
+      <button class="nav-btn-round" title="Home" onclick="window.location.href='index.html'">🏠</button>
+      <button class="nav-btn-round" title="Game" onclick="window.location.href='game1.html'">🎲</button>
+      <button class="nav-btn-round" title="Info" onclick="window.location.href='about.html'">ℹ️</button>
+    </div>
+
+  <script>
+    const TRUTHS = [
+      "😱 What’s your biggest fear?",
+      "💖 Who was your first crush?",
+      "🤫 What’s a secret you never told anyone?"
+    ];
+    const DARES = [
+      "🏃‍♂️ Do 10 jumping jacks",
+      "🎤 Sing a song",
+      "💃 Dance for 10 seconds"
+    ];
+
+    const intro=document.getElementById('intro');
+    const game=document.getElementById('game');
+    const promptBox=document.getElementById('promptBox');
+
+    document.getElementById('letsGo').onclick=()=>{ intro.classList.add('hidden'); game.classList.remove('hidden'); };
+    document.getElementById('backBtn').onclick=()=>{ game.classList.add('hidden'); intro.classList.remove('hidden'); };
+
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+    let lastType=null;
+    document.getElementById('truthBtn').onclick=()=>{ lastType='truth'; promptBox.textContent=pick(TRUTHS); };
+    document.getElementById('dareBtn').onclick=()=>{ lastType='dare'; promptBox.textContent=pick(DARES); };
+
+    const rulesOverlay=document.getElementById('rulesOverlay');
+    document.getElementById('rulesBtn').onclick=()=>rulesOverlay.classList.add('open');
+    document.getElementById('closeRules').onclick=()=>rulesOverlay.classList.remove('open');
+  </script>
+</body>
+</html>

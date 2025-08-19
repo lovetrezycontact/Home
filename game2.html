@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Love Quest — A Tiny Love Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body{
+      margin:0; font-family:Arial, sans-serif; color:#fff; display:flex; justify-content:center; align-items:center; height:100vh;
+      overflow:hidden;
+      position:relative;
+      background: #181824;
+    }
+    .venom-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .venom-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(32px) brightness(0.8);
+      opacity: 0.7;
+      mix-blend-mode: lighten;
+      animation: venomMove 12s ease-in-out infinite alternate;
+    }
+    .venom-blob1 { width: 420px; height: 420px; background: #6a0572; left: 5vw; top: 40vh; animation-delay: 0s; }
+    .venom-blob2 { width: 320px; height: 320px; background: #120078; left: 60vw; top: 10vh; animation-delay: 2s; }
+    .venom-blob3 { width: 260px; height: 260px; background: #ff1493; left: 30vw; top: 70vh; animation-delay: 4s; }
+    .venom-blob4 { width: 180px; height: 180px; background: #00c9a7; left: 80vw; top: 60vh; animation-delay: 1s; }
+    @keyframes venomMove {
+      0%   { transform: scale(1) translateY(0) rotate(0deg); opacity: 0.7; }
+      40%  { transform: scale(1.15) translateY(-30px) rotate(20deg); opacity: 0.8; }
+      60%  { transform: scale(0.95) translateY(30px) rotate(-15deg); opacity: 0.6; }
+      100% { transform: scale(1.1) translateY(-10px) rotate(10deg); opacity: 0.7; }
+    }
+    .container{ text-align:center; }
+    button{
+      padding:14px 22px; margin:8px; border:none; border-radius:10px; cursor:pointer; font-weight:bold; font-size:16px; color:#ff54da; background:linear-gradient(90deg, #ff69b4 0%, #ff1493 100%); box-shadow:0 0 15px #ff1493, 0 0 30px #ff69b4; transition:transform 0.1s ease, background 0.2s;
+    }
+    button:hover{ transform:scale(1.05); background:linear-gradient(90deg, #ff1493 0%, #ff69b4 100%); }
+    .hidden{ display:none; }
+    #promptBox{ margin-top:20px; padding:20px; border-radius:10px; background:#3a003a; box-shadow:0 0 15px #ff1493; min-height:60px; color:#fff; }
+    .overlay{ position:fixed; inset:0; background:rgba(255, 113, 217, 0.8); display:none; justify-content:center; align-items:center; }
+    .overlay.active, .overlay.open{ display:flex; }
+    .modal{ background:#a8006b; padding:20px; border-radius:12px; box-shadow:0 0 20px #ff69b4; max-width:400px; text-align:left; color:#fff; }
+    .modal h3{ margin-top:0; color:#ffb6e6; }
+    .close{ background:#ff1493; margin-top:10px; }
+    .nav-round {
+      position: fixed;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 32px;
+      z-index: 20;
+      padding: 6px 16px;
+      border-radius: 28px;
+      background: rgba(255, 105, 180, 0.18);
+      box-shadow: 0 8px 32px 0 #ff69b488, 0 1.5px 16px 0 #ff149388;
+      backdrop-filter: blur(8px);
+    }
+    @media (max-width: 600px) {
+      .nav-round {
+        gap: 10px;
+        top: auto;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 8px 18px;
+        border-radius: 32px 32px 32px 32px/40px 40px 40px 40px;
+        background: rgba(255, 255, 255, 0.18);
+        box-shadow: 0 2px 24px 0 #ff69b4cc, 0 1.5px 8px 0 #ff149388;
+        backdrop-filter: blur(12px);
+      }
+      .nav-btn-round { width: 28px; height: 28px; font-size: 0.9em; }
+      /* Mobile-specific venom blobs */
+      .venom-blob1 { width: 180px; height: 180px; background: #ff1493; left: 10vw; top: 70vh; animation-delay: 0s; }
+      .venom-blob2 { width: 120px; height: 120px; background: #00c9a7; left: 60vw; top: 10vh; animation-delay: 1.5s; }
+      .venom-blob3 { width: 90px; height: 90px; background: #6a0572; left: 30vw; top: 30vh; animation-delay: 2.5s; }
+      .venom-blob4 { width: 70px; height: 70px; background: #120078; left: 80vw; top: 60vh; animation-delay: 0.5s; }
+      body, html {
+        height: 100vh;
+        min-height: 100vh;
+      }
+      .container {
+        justify-content: flex-start !important;
+        align-items: center !important;
+        display: flex !important;
+        flex-direction: column !important;
+        min-height: 100vh;
+        width: 100vw;
+        padding-top: 18vw;
+      }
+      #intro, #game {
+        margin-top: 0 !important;
+      }
+    }
+    .nav-btn-round {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+      color: #fff;
+      font-size: 1.1em;
+      box-shadow: 0 4px 16px #ff69b4a0, 0 0 0 4px #fffbe633;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .nav-btn-round::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fffbe6cc 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 1;
+    }
+    .nav-btn-round:hover {
+      transform: scale(1.16) rotate(-6deg);
+      box-shadow: 0 0 32px #ff1493cc, 0 0 0 8px #fffbe655;
+      border-color: #ffb6e6;
+    }
+    .nav-btn-round:hover::after {
+      opacity: 0.18;
+    }
+
+    :root{
+      --bg: radial-gradient(1200px 800px at 20% -10%, #ffd1dc 0%, transparent 40%),
+            radial-gradient(1000px 700px at 120% 10%, #d1c2ff 0%, transparent 40%),
+            linear-gradient(180deg, #fff6fa 0%, #fff 60%);
+      --primary:#ff4d94;
+      --primary-600:#e64586;
+      --secondary:#8a5cff;
+      --ink:#2c2233;
+      --muted:#6b5a73;
+      --card:#ffffffcc;
+      --shadow:0 20px 40px rgba(0,0,0,.08);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--ink);
+      background:var(--bg);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
+    }
+    .app{width:min(980px,100%);}
+    .card{
+      background:var(--card);
+      backdrop-filter:saturate(1.2) blur(10px);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.6);
+    }
+    header{
+      padding:18px 22px; display:flex; align-items:center; gap:12px; justify-content:space-between;
+      border-bottom:1px solid rgba(0,0,0,.06);
+      background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.6));
+    }
+    .brand{display:flex; align-items:center; gap:12px}
+    .logo{width:38px; height:38px; position:relative}
+    .logo::before,.logo::after{
+      content:""; position:absolute; background:var(--primary); width:20px; height:32px; border-radius:10px 10px 0 10px; transform:rotate(-45deg); left:9px; top:3px; box-shadow:inset 0 -6px 18px rgba(0,0,0,.12);
+    }
+    .logo::after{ left:0; transform:rotate(45deg); border-radius:10px 10px 10px 0; }
+    h1{font-size:clamp(20px,3vw,26px); margin:0}
+    .muted{color:var(--muted); font-weight:500; font-size:14px}
+
+    main{padding:22px; display:grid; grid-template-columns: 1fr; gap:18px}
+
+    .hud{display:grid; grid-template-columns: 1fr auto; gap:12px; align-items:center}
+    .progress{
+      height:14px; background:#f0e7f5; border-radius:999px; position:relative; overflow:hidden; border:1px solid rgba(0,0,0,.05)
+    }
+    .bar{height:100%; width:0%; background:linear-gradient(90deg,var(--primary), var(--secondary)); box-shadow:inset 0 0 10px rgba(255,255,255,.4)}
+    .score{font-weight:700}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; background:#fff; border:1px solid rgba(0,0,0,.06); border-radius:999px; box-shadow:var(--shadow)}
+
+    .scene{display:grid; gap:16px}
+    .scene h2{margin:0; font-size:clamp(18px,2.6vw,22px)}
+    .choices{display:grid; gap:10px}
+    button.choice{
+      text-align:left; padding:14px 16px; border-radius:16px; border:1px solid rgba(0,0,0,.08); background:#fff; cursor:pointer; font-weight:600;
+      transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    button.choice:hover{ transform:translateY(-1px); box-shadow:0 10px 24px rgba(0,0,0,.06) }
+    button.choice:active{ transform:translateY(0) }
+
+    .footer{display:flex; justify-content:space-between; align-items:center; padding:0 6px}
+    .tiny{font-size:12px; color:var(--muted)}
+
+    .start{display:grid; gap:14px; padding:26px}
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    .input{display:grid; gap:8px}
+    input[type="text"]{
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(0,0,0,.1); font-size:16px; background:#fff
+    }
+    .big{font-size:clamp(24px,6vw,36px); margin:6px 0 2px}
+    .cta{display:flex; gap:10px; flex-wrap:wrap}
+    .btn{
+      padding:12px 16px; border-radius:14px; border:0; font-weight:700; cursor:pointer; box-shadow:var(--shadow)
+    }
+    .btn.primary{ background:linear-gradient(90deg,var(--primary),var(--secondary)); color:#fff }
+    .btn.ghost{ background:#fff }
+
+    /* Mini-game overlay */
+    .overlay{ position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.25); }
+    .overlay.active{ display:grid }
+    .mini{
+      width:min(680px,92vw); background:#fff; border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); border:1px solid rgba(0,0,0,.06);
+      display:grid; gap:12px
+    }
+    .arena{ position:relative; height:320px; border-radius:18px; background:linear-gradient(180deg,#fff4f7,#f2ebff); overflow:hidden; border:1px solid rgba(0,0,0,.06) }
+    .heart{ position:absolute; font-size:22px; user-select:none; cursor:pointer; filter:drop-shadow(0 6px 8px rgba(0,0,0,.12));}
+    .timer{ font-weight:700 }
+
+    /* End screen */
+    .end{ text-align:center; padding:26px; display:grid; gap:14px }
+    .end h2{ font-size:clamp(22px,4vw,28px); margin:0 }
+    .ending-badge{ display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px; background:#fff }
+
+    /* Confetti (simple) */
+    .confetti{ position:fixed; inset:0; pointer-events:none; overflow:hidden }
+    .piece{ position:absolute; width:10px; height:14px; background:var(--primary); animation: fall 2400ms linear forwards; opacity:.9 }
+    @keyframes fall{
+      0%{ transform:translateY(-10vh) rotate(0deg)}
+      100%{ transform:translateY(110vh) rotate(720deg)}
+    }
+
+    @media (max-width:720px){
+      .grid{ grid-template-columns:1fr }
+      main{ padding:14px }
+    }
+    label {
+      color: #ff1493 !important;
+    }
+  </style>
+</head>
+<body>
+    <div class="venom-bg">
+      <div class="venom-blob venom-blob1"></div>
+      <div class="venom-blob venom-blob2"></div>
+      <div class="venom-blob venom-blob3"></div>
+      <div class="venom-blob venom-blob4"></div>
+    </div>
+    <div class="container">
+      <div class="app card" role="application" aria-label="Love Quest game">
+        <header>
+          <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <div>
+              <h1>Love Quest</h1>
+              <div class="muted">A tiny, cozy choice game</div>
+            </div>
+          </div>
+          <div class="pill" id="statusPill" title="Progress">
+            <span>Day <span id="day">1</span>/6</span>
+          </div>
+        </header>
+
+        <main id="stage">
+          <!-- Start screen injected by JS -->
+        </main>
+
+        <div class="footer">
+          <div class="tiny">Made with ❤️ Love Trezy.</div>
+          <button class="btn ghost" id="resetBtn" title="Reset progress">Reset</button>
+        </div>
+      </div>
+
+      <!-- Mini-game Overlay -->
+      <div class="overlay" id="overlay" aria-hidden="true">
+        <div class="mini" role="dialog" aria-modal="true" aria-labelledby="miniTitle">
+          <div style="display:flex; justify-content:space-between; align-items:center">
+            <strong id="miniTitle">Heart Burst! (Click hearts to earn affection)</strong>
+            <div class="timer">⏳ <span id="timeLeft">15</span>s</div>
+          </div>
+          <div class="arena" id="arena" aria-label="Heart arena"></div>
+          <div style="display:flex; justify-content:space-between; align-items:center">
+            <div>Hearts popped: <strong id="popped">0</strong></div>
+            <button class="btn primary" id="closeMini">Finish</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confetti container -->
+      <div class="confetti" id="confetti"></div>
+
+      <div class="nav-round">
+        <button class="nav-btn-round" title="Home" onclick="window.location.href='index.html'">🏠</button>
+        <button class="nav-btn-round" title="Game" onclick="window.location.href='game1.html'">🎲</button>
+        <button class="nav-btn-round" title="Info" onclick="window.location.href='about.html'">ℹ️</button>
+      </div>
+    </div>
+
+    <script>
+      // --------- State & Data ---------
+      const storeKey = 'love-quest-save-v1';
+      const $ = (sel, el=document) => el.querySelector(sel);
+      const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+
+      const scenes = [
+        {
+          text: (S) => `It's the first day of the Spring Fest. You notice ${S.crush} by the lemonade stand. What do you do?`,
+          choices: [
+            { label: 'Walk over with a smile and offer to get them a cup.', delta: +8 },
+            { label: 'Send a wave from afar and hope they notice.', delta: +3 },
+            { label: 'Pretend you didn\'t see them. (nerves!)', delta: -2 },
+          ]
+        },
+        {
+          text: (S) => `${S.crush} mentions a band they love. You...`,
+          choices: [
+            { label: 'Ask what their favorite song is and listen together.', delta: +7 },
+            { label: 'Say you\'re more into podcasts and change the topic.', delta: -1 },
+            { label: 'Offer to check the band\'s set later tonight.', delta: +5 },
+          ]
+        },
+        {
+          text: (S) => `There\'s a charity booth needing volunteers. ${S.crush} looks interested.`,
+          choices: [
+            { label: 'Volunteer together for 20 minutes.', delta: +7 },
+            { label: 'Donate a little and cheer them on.', delta: +4 },
+            { label: 'Say you\'ll catch up later and wander off.', delta: -2 },
+          ],
+          miniGame: true // After this scene, trigger mini-game
+        },
+        {
+          text: (S) => `Clouds roll in. A small drizzle starts.`,
+          choices: [
+            { label: 'Share your umbrella and make a silly joke.', delta: +7 },
+            { label: 'Dash for cover without saying much.', delta: +0 },
+            { label: 'Complain loudly about the weather.', delta: -3 },
+          ]
+        },
+        {
+          text: (S) => `Evening lights glow. You and ${S.crush} pass the photo booth.`,
+          choices: [
+            { label: 'Take a goofy picture together.', delta: +6 },
+            { label: 'Offer the booth to the group behind you.', delta: +1 },
+            { label: 'Say photos are overrated and keep walking.', delta: -2 },
+          ]
+        },
+        {
+          text: (S) => `The night ends with fireworks. Time to say goodnight, ${S.name}.`,
+          choices: [
+            { label: 'Thank them for the day and suggest coffee tomorrow.', delta: +7 },
+            { label: 'Say you had fun and wave goodbye.', delta: +3 },
+            { label: 'Mumble something and look at the ground.', delta: -2 },
+          ]
+        },
+      ];
+
+      let State = {
+        name: '',
+        crush: '',
+        day: 1,
+        score: 0,
+        index: 0,
+        resumed: false,
+      };
+
+      function save(){ localStorage.setItem(storeKey, JSON.stringify(State)); }
+      function load(){
+        try{ const s = JSON.parse(localStorage.getItem(storeKey)); if(s && typeof s === 'object') return s; }catch(e){}
+        return null;
+      }
+      function reset(){ localStorage.removeItem(storeKey); State = { name:'', crush:'', day:1, score:0, index:0, resumed:false }; renderStart(); updateHUD(); }
+
+      // --------- UI Rendering ---------
+      function updateHUD(){
+        $('#day').textContent = Math.min(State.day, scenes.length);
+        const pct = Math.max(0, Math.min(100, Math.round((State.score/60)*100)));
+        let bar = $('.bar');
+        if(!bar){
+          const p = document.createElement('div'); p.className='progress'; p.innerHTML = '<div class="bar" style="width:0%"></div>'; $('.hud')?.appendChild(p);
+          bar = $('.bar');
+        }
+        bar.style.width = pct + '%';
+        $('#statusPill').setAttribute('aria-label', `Affection ${pct}%`);
+      }
+
+      function renderStart(){
+        const saved = load();
+        const hasSave = !!(saved && saved.name);
+        $('#stage').innerHTML = `
+          <section class="start">
+            <div>
+              <div class="big">Welcome to <strong>Love Quest</strong> 💘</div>
+              <div class="muted">Small choices. Big feelings. Multiple endings!</div>
+            </div>
+            <div class="grid">
+              <label class="input">Your name
+                <input id="yourName" type="text" placeholder="Alex" maxlength="16" />
+              </label>
+              <label class="input">Crush's name
+                <input id="crushName" type="text" placeholder="Sam" maxlength="16" />
+              </label>
+            </div>
+            <div class="cta">
+              <button class="btn primary" id="startBtn">Start New Game</button>
+              ${hasSave ? '<button class="btn ghost" id="resumeBtn">Resume</button>' : ''}
+            </div>
+            <div class="tiny">Tip: Your choices change the ending. Fill the heart bar for a perfect match!</div>
+          </section>`;
+
+        $('#startBtn').onclick = () => {
+          const name = ($('#yourName').value || 'Alex').trim();
+          const crush = ($('#crushName').value || 'Sam').trim();
+          State = { name, crush, day:1, score:0, index:0, resumed:false };
+          save();
+          renderScene();
+        };
+        $('#resumeBtn')?.addEventListener('click', () => { State = load(); State.resumed = true; renderScene(); updateHUD(); });
+        $('#resetBtn').onclick = reset;
+      }
+
+      function renderScene(){
+        const scene = scenes[State.index];
+        if(!scene){ return endGame(); }
+
+        $('#stage').innerHTML = `
+          <section class="hud">
+            <div class="progress"><div class="bar" style="width:0%"></div></div>
+            <div class="score" aria-live="polite">❤️ ${State.score}</div>
+          </section>
+          <section class="scene">
+            <h2>${scene.text(State)}</h2>
+            <div class="choices"></div>
+          </section>`;
+
+        scene.choices.forEach((c,i)=>{
+          const btn = document.createElement('button');
+          btn.className = 'choice';
+          btn.innerHTML = `${c.label}`;
+          btn.addEventListener('click', ()=> choose(i));
+          $('.choices').appendChild(btn);
+        });
+        updateHUD();
+      }
+
+      function choose(i){
+        const scene = scenes[State.index];
+        const delta = scene.choices[i].delta;
+        State.score += delta;
+        State.day += 1; // advance day
+        flashDelta(delta);
+        State.index += 1;
+        save();
+
+        // Trigger mini-game after scene with miniGame flag
+        if(scene.miniGame){ setTimeout(()=> openMiniGame(), 450); } else {
+          setTimeout(()=> (State.index >= scenes.length ? endGame() : renderScene()), 450);
+        }
+      }
+
+      function flashDelta(delta){
+        const n = document.createElement('div');
+        n.textContent = (delta>=0?'+':'') + delta + ' ❤️';
+        Object.assign(n.style, { position:'fixed', left:'50%', top:'50%', transform:'translate(-50%,-50%)', fontWeight:'700', padding:'10px 14px', background:'#fff', border:'1px solid rgba(0,0,0,.08)', borderRadius:'12px', boxShadow:'0 10px 24px rgba(0,0,0,.06)', zIndex:10, opacity:1, transition:'all .6s ease'});
+        document.body.appendChild(n);
+        requestAnimationFrame(()=>{ n.style.transform='translate(-50%,-120%)'; n.style.opacity=.0; });
+        setTimeout(()=> n.remove(), 620);
+      }
+
+      // --------- Mini Game: Heart Burst ---------
+      let miniTimer = null; let timeLeft = 15; let popped = 0;
+      function openMiniGame(){
+        const overlay = $('#overlay');
+        overlay.classList.add('active');
+        overlay.setAttribute('aria-hidden','false');
+        $('#timeLeft').textContent = timeLeft = 15;
+        $('#popped').textContent = popped = 0;
+        $('#arena').innerHTML = '';
+
+        spawnHearts();
+        miniTimer = setInterval(()=>{
+          timeLeft--; $('#timeLeft').textContent = timeLeft;
+          if(timeLeft<=0){ closeMiniGame(); }
+        },1000);
+      }
+
+      function spawnHearts(){
+        const arena = $('#arena');
+        const spawnInterval = setInterval(()=>{
+          if(!$('#overlay').classList.contains('active')){ clearInterval(spawnInterval); return; }
+          const h = document.createElement('div');
+          h.className='heart';
+          h.textContent = Math.random() < .12 ? '💘' : (Math.random()<.5?'❤️':'💕');
+          const size = 18 + Math.random()*22; h.style.fontSize = size+'px';
+          const x = Math.random()*(arena.clientWidth-40); const y = arena.clientHeight + 20;
+          const dur = 2500 + Math.random()*2000; const drift = (Math.random()-.5)*80;
+          h.style.left = x+'px'; h.style.top = y+'px';
+          arena.appendChild(h);
+          const start = Date.now();
+          const anim = () => {
+            const t = (Date.now()-start)/dur; if(t>=1){ h.remove(); return; }
+            h.style.transform = `translate(${drift*t}px, ${- (arena.clientHeight+60)*t}px)`;
+            requestAnimationFrame(anim);
+          }; anim();
+          h.addEventListener('click', ()=>{ popped++; $('#popped').textContent = popped; h.remove(); });
+        }, 220);
+      }
+
+      function closeMiniGame(){
+        clearInterval(miniTimer); miniTimer = null;
+        $('#overlay').classList.remove('active');
+        $('#overlay').setAttribute('aria-hidden','true');
+        // Reward: +1 score per 3 hearts popped (rounded)
+        const bonus = Math.round(popped/3);
+        if(bonus){ State.score += bonus; flashDelta(bonus); save(); }
+        // Continue game
+        if(State.index >= scenes.length){ endGame(); } else { renderScene(); }
+      }
+
+      $('#closeMini').onclick = closeMiniGame;
+
+      // --------- Ending ---------
+      function endGame(){
+        const pct = Math.max(0, Math.min(100, Math.round((State.score/60)*100)));
+        let title = 'Just Friends';
+        let desc = `There\'s a comfy spark, but maybe let it grow slowly.`;
+        let badge = '🙂 Mild Vibes';
+        if(pct >= 85){ title = 'Soulmates (Probably)'; desc = `Fireworks, coffee dates, playlists — ${State.crush} is into it.`; badge = '💖 Perfect Match'; confetti(120); }
+        else if(pct >= 65){ title = 'Sparks Fly'; desc = `Plenty of chemistry. Ask ${State.crush} out again!`; badge = '✨ Great Energy'; confetti(70); }
+        else if(pct >= 45){ title = 'Maybe Something'; desc = `A few butterflies. Try one more hangout.`; badge = '🫶 Sweet Start'; }
+
+        $('#stage').innerHTML = `
+          <section class="end">
+            <div class="ending-badge">${badge}</div>
+            <h2>${title}</h2>
+            <p class="muted">Score: <strong>${State.score}</strong> · Affection ${pct}%</p>
+            <p>${desc}</p>
+            <div class="cta" style="justify-content:center">
+              <button class="btn primary" id="playAgain">Play Again</button>
+              <button class="btn ghost" id="shareBtn" title="Copy result">Share</button>
+            </div>
+          </section>`;
+
+        $('#playAgain').onclick = () => { reset(); };
+        $('#shareBtn').onclick = async () => {
+          const text = `I finished Love Quest with ${pct}% affection for ${State.crush}!`;
+          try{
+            await navigator.clipboard.writeText(text);
+            alert('Result copied! Paste it anywhere ♡');
+          }catch(e){ alert(text); }
+        };
+      }
+
+      // Simple confetti
+      function confetti(n=60){
+        const area = $('#confetti');
+        for(let i=0;i<n;i++){
+          const p = document.createElement('div'); p.className='piece';
+          const hue = Math.random()<.5? 'var(--primary)' : 'var(--secondary)';
+          Object.assign(p.style, {
+            left: (Math.random()*100)+'%',
+            top: (-10 - Math.random()*60)+'px',
+            background: hue,
+            transform: `rotate(${Math.random()*360}deg)`,
+            animationDuration: (1500 + Math.random()*1500) + 'ms',
+          });
+          area.appendChild(p);
+          setTimeout(()=> p.remove(), 3000);
+        }
+      }
+
+      // --------- Init ---------
+      $('#resetBtn').onclick = reset;
+      (function init(){
+        const saved = load();
+        if(saved){ State = saved; renderStart(); }
+        else { renderStart(); }
+      })();
+    </script>
+  </body>
+</html>
